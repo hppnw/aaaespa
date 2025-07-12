@@ -1,0 +1,36 @@
+{
+  "name": "Karina",
+  "birth": "2000-04-11",
+  "introduction": "刘知珉（유지민、Yu Ji Min），艺名KARINA（카리나、カリナ），2000年4月11日出生于韩国京畿道城南市盆塘区，韩国女歌手，aespa组合队长",
+  "position": "Leader, Dancer",
+  "photos": [
+    "assets/members/karina/photo1.jpg",
+    "assets/members/karina/photo2.jpg",
+    "assets/members/karina/photo3.jpg",
+    "assets/members/karina/photo4.jpg",
+    "assets/members/karina/photo5.jpg"
+  ],
+  "soloMVs": [
+    {
+      "title": "UP",
+      "date": "2024-10-09",
+      "embed": {
+        "bilibili": "BV1wBrsYJECF"
+      }
+    },
+    {
+      "title": "I'M THE DRAMA #KARINA",
+      "date": "2023-11-10",
+      "embed": {
+        "bilibili": "BV1Zc4119719"
+      }
+    },
+    {
+      "title": "aespa《Armageddon》Find The Authentic #KARINA",
+      "date": "2024-05-27",
+      "embed": {
+        "bilibili": "BV1f7421f75j" 
+      }
+    }
+  ]
+}

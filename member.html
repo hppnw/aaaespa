@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>成员展示页</title>
+  <link rel="stylesheet" href="css/member.css" />
+</head>
+
+<body>
+
+  <div id="member-container">
+    <div id="member-left">
+      <img id="member-avatar" src="" alt="成员头像" />
+      <div id="member-info-mask">
+        <h1 id="member-name"></h1>
+        <p id="member-position"></p>
+        <p id="member-birth"></p>
+      </div>
+    </div>
+    <div id="member-right">
+      <div id="right-bg"></div>
+      <div id="photo-gallery-wrapper">
+        <button id="gallery-prev" class="gallery-nav">&#8592;</button>
+        <div id="photo-gallery">
+          <!-- 相册滑块 -->
+        </div>
+        <button id="gallery-next" class="gallery-nav">&#8594;</button>
+      </div>
+      <div id="mv-timeline">
+        <div id="mv-list-wrapper">
+          <button id="mv-prev" class="gallery-nav">&#8592;</button>
+          <ul id="mv-list"></ul>
+          <button id="mv-next" class="gallery-nav">&#8594;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/member.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>aespa 专辑展示</title>
+  <link rel="stylesheet" href="css/album.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+  <div class="main-container">
+    <!-- Left Column -->
+    <div class="left-column">
+      <div class="album-info">
+        <h1 id="album-title">ALBUM TITLE</h1>
+        <p id="album-intro">Short introduction of the album will be displayed here.</p>
+      </div>
+      <div class="cd-section">
+        <div class="cd-container">
+          <div class="cd" id="cd-cover"></div>
+        </div>
+        <div class="album-description" id="album-description">
+          <!-- 详细介绍将由JavaScript填充 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="right-column">
+      <section class="mv-section">
+        <div class="mv-card-container">
+          <button id="mv-prev" class="gallery-nav mv-card-nav-btn">&#8592;</button>
+          <div class="mv-card">
+            <div class="mv-title" id="mv-title"></div>
+            <iframe id="mv-iframe" allowfullscreen></iframe>
+          </div>
+          <button id="mv-next" class="gallery-nav mv-card-nav-btn">&#8594;</button>
+        </div>
+      </section>
+      <section class="poster-section">
+        <div class="carousel" id="poster-carousel">
+          <div class="carousel-inner" id="poster-carousel-inner">
+            <!-- Poster items will be injected by JS -->
+          </div>
+          <div class="carousel-nav">
+            <button class="prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="next"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+
+  <div id="gallery-overlay">
+    <div class="gallery-content-wrapper">
+      <button class="close-btn" id="gallery-close-btn" title="关闭">×</button>
+      <div class="gallery-grid">
+        <!-- Gallery grid items will be injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Tracklist Sidebar -->
+  <aside id="album-track-sidebar">
+    <div class="sidebar-header" style="display:flex;align-items:center;justify-content:space-between;padding:18px 24px 0 24px;">
+      <span style="font-size:1.2em;font-weight:bold;color:#fff">曲目列表</span>
+      <button class="close-btn" id="sidebar-close-btn" title="关闭" style="background:none;border:none;font-size:2em;color:#fff;line-height:1;cursor:pointer;">×</button>
+    </div>
+    <ul id="album-track-list"></ul>
+  </aside>
+
+  <!-- Buttons -->
+  <button id="album-hamburger" aria-label="菜单">
+    <span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+  </button>
+  <button id="gallery-btn" aria-label="二创视频"><i class="fas fa-th-large"></i></button>
+
+  <!-- Scripts -->
+  <script src="js/album.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+{
+  "title": "My World",
+  "description_short": "aespa's third mini album, featuring the powerful title track 'Spicy'.",
+  "description_full": "'My World' is aespa's third mini album, released on May 8, 2023. The album contains six tracks including the title track 'Spicy'. The album showcases aespa's unique musical style and continues to expand their distinctive universe.",
+  "cover_image": "cover.jpg",
+  "tracks": [
+    {
+      "title": "Welcome To MY World (Feat. nævis)",
+      "audio": "01_Welcome To MY World (Feat. nævis).mp3",
+      "length": "3:38"
+    },
+    {
+      "title": "Spicy",
+      "audio": "02_Spicy.mp3",
+      "length": "3:17"
+    },
+    {
+      "title": "Salty & Sweet",
+      "audio": "03_Salty&Sweet.mp3",
+      "length": "3:13"
+    },
+    {
+      "title": "Thirsty",
+      "audio": "04_Thirsty.mp3",
+      "length": "3:07"
+    },
+    {
+      "title": "I'm Unhappy",
+      "audio": "05_I'm Unhappy.mp3",
+      "length": "3:22"
+    },
+    {
+      "title": "'Til We Meet Again",
+      "audio": "06_'Til We Meet Again.mp3",
+      "length": "3:19"
+    }
+  ]
+}

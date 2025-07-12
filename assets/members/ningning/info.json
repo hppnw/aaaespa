@@ -1,0 +1,36 @@
+{
+  "name": "Ningning",
+  "birth": "2002-10-23",
+  "introduction": "宁艺卓，艺名Ningning（宁宁；닝닝），中国女歌手、舞者，在韩国发展，曾在SM ROOKIES中亮相过。",
+  "position": "Vocal",
+  "photos": [
+    "assets/members/ningning/photo1.jpg",
+    "assets/members/ningning/photo2.jpg",
+    "assets/members/ningning/photo3.jpg",
+    "assets/members/ningning/photo4.jpg",
+    "assets/members/ningning/photo5.jpg"
+  ],
+  "soloMVs": [
+    {
+      "title": "Bored!",
+      "date": "2024-10-09",
+      "embed": {
+        "bilibili": "BV1Nf6HY5E2j"
+      }
+    },
+    {
+      "title": "I'M THE DRAMA #NINGNING",
+      "date": "2023-11-10",
+      "embed": {
+        "bilibili": "BV17N411G79d"
+      }
+    },
+    {
+      "title": "aespa《Armageddon》Find The Authentic #NINGNING",
+      "date": "2024-05-27",
+      "embed": {
+        "bilibili": "BV1pZ421x7DU"
+      }
+    }
+  ]
+}

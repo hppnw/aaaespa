@@ -1,0 +1,58 @@
+{
+  "title": "Armageddon",
+  "description_short": "aespa's first full album, featuring the powerful title track 'Armageddon'.",
+  "description_full": "'Armageddon' is aespa's first full-length album, released in 2024. The album features ten tracks, including the double title tracks 'Supernova' and 'Armageddon'. This album showcases aespa's musical diversity and further expands their unique universe, blending various genres and innovative sounds.",
+  "cover_image": "cover.png",
+  "tracks": [
+    {
+      "title": "Supernova",
+      "audio": "01_Supernova.mp3",
+      "length": "3:18"
+    },
+    {
+      "title": "Armageddon",
+      "audio": "02_Armageddon.mp3",
+      "length": "3:30"
+    },
+    {
+      "title": "Set The Tone",
+      "audio": "03_Set The Tone.mp3",
+      "length": "3:12"
+    },
+    {
+      "title": "Mine",
+      "audio": "04_Mine.mp3",
+      "length": "3:05"
+    },
+    {
+      "title": "Licorice",
+      "audio": "05_Licorice.mp3",
+      "length": "2:58"
+    },
+    {
+      "title": "BAHAMA",
+      "audio": "06_BAHAMA.mp3",
+      "length": "3:21"
+    },
+    {
+      "title": "Long Chat (#♥)",
+      "audio": "07_Long Chat (#♥).mp3",
+      "length": "2:47"
+    },
+    {
+      "title": "Prologue",
+      "audio": "08_Prologue.mp3",
+      "length": "1:55"
+    },
+    {
+      "title": "Live My Life",
+      "audio": "09_Live My Life.mp3",
+      "length": "3:10"
+    },
+    {
+      "title": "Melody",
+      "audio": "10_Melody.mp3",
+      "length": "3:22"
+    }
+  ]
+}

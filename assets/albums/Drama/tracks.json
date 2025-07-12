@@ -1,0 +1,43 @@
+{
+  "title": "Drama",
+  "description_short": "aespa's fourth mini album, featuring the energetic title track 'Drama'.",
+  "description_full": "'Drama' is aespa's fourth mini album, released on November 10, 2023. The album features seven tracks, including the dynamic title track 'Drama', and showcases aespa's evolving sound and storytelling. The album continues to expand aespa's unique universe and musical style.",
+  "cover_image": "cover.jpg",
+  "tracks": [
+    {
+      "title": "Drama",
+      "audio": "01_Drama.mp3",
+      "length": "3:20"
+    },
+    {
+      "title": "Trick or Trick",
+      "audio": "02_Trick or Trick.mp3",
+      "length": "3:10"
+    },
+    {
+      "title": "Don't Blink",
+      "audio": "03_Don't Blink.mp3",
+      "length": "3:05"
+    },
+    {
+      "title": "Hot Air Balloon",
+      "audio": "04_Hot Air Balloon.mp3",
+      "length": "3:12"
+    },
+    {
+      "title": "YOLO",
+      "audio": "05_YOLO.mp3",
+      "length": "2:58"
+    },
+    {
+      "title": "You",
+      "audio": "06_You.mp3",
+      "length": "3:25"
+    },
+    {
+      "title": "Better Things",
+      "audio": "07_Better Things.mp3",
+      "length": "3:15"
+    }
+  ]
+}

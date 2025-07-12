@@ -1,0 +1,48 @@
+{
+  "title": "Girls",
+  "description_short": "aespa's second mini album, featuring the powerful title track 'Girls'.",
+  "description_full": "'Girls' is the second mini-album by aespa. It was released on July 8, 2022, with 'Girls' serving as the album's title track. The album contains eight tracks, including two previously released singles 'Black Mamba' and 'Dreams Come True', as well as both Korean and English versions of 'Life's Too Short'.\n\nThe title track 'Girls' continues aespa's unique storytelling and musical style, featuring powerful vocals, dynamic rap sections, and an intense electronic dance sound. The lyrics depict aespa's journey to face their destiny and protect KWANGYA, showcasing their growth and determination.",
+  "cover_image": "cover.jpg",
+  "tracks": [
+    {
+      "title": "Girls",
+      "audio": "01_Girls.mp3",
+      "length": "4:00"
+    },
+    {
+      "title": "Illusion",
+      "audio": "02_Illusion.mp3",
+      "length": "3:42"
+    },
+    {
+      "title": "Lingo",
+      "audio": "03_Lingo.mp3",
+      "length": "3:13"
+    },
+    {
+      "title": "Life's Too Short",
+      "audio": "04_Life's Too Short.mp3",
+      "length": "2:58"
+    },
+    {
+      "title": "ICU",
+      "audio": "05_ICU.mp3",
+      "length": "3:30"
+    },
+    {
+      "title": "Life's Too Short (English Ver.)",
+      "audio": "06_Life's Too Short(English Ver.).mp3",
+      "length": "2:58"
+    },
+    {
+      "title": "Black Mamba",
+      "audio": "07_Black Mamba.mp3",
+      "length": "2:53"
+    },
+    {
+      "title": "Dreams Come True",
+      "audio": "08_Dreams Come True.mp3",
+      "length": "3:39"
+    }
+  ]
+}

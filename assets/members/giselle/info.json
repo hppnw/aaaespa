@@ -1,0 +1,38 @@
+{
+  "name": "Giselle",
+  "birth": "2000-10-30",
+  "introduction": "内永枝利（内永 枝利／うちなが えり ,韩文名金枝利（Kim Ae-ri），艺名Giselle，是在韩国发展的日本籍女饶舌歌手",
+  "position": "Rapper",
+  "photos": [
+    "assets/members/giselle/photo1.jpg",
+    "assets/members/giselle/photo2.jpg",
+    "assets/members/giselle/photo3.jpg",
+    "assets/members/giselle/photo4.jpg",
+    "assets/members/giselle/photo5.jpg",
+    "assets/members/giselle/photo6.jpg",
+    "assets/members/giselle/photo7.jpg"
+  ],
+  "soloMVs": [
+    {
+      "title": "Dopamine",
+      "date": "2024-10-09",
+      "embed": {
+        "bilibili": "BV19LfiYyErr"
+      }
+    },
+    {
+      "title": "I'M THE DRAMA #GISELLE",
+      "date": "2023-11-10",
+      "embed": {
+        "bilibili": "BV1t84y1Q7v5"
+      }
+    },
+    {
+      "title": "aespa《Armageddon》Find The Authentic #GISELLE",
+      "date": "2024-05-27",
+      "embed": {
+        "bilibili": "BV1cy411a7n4" 
+      }
+    }
+  ]
+}

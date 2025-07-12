@@ -1,0 +1,38 @@
+{
+  "title": "Whiplash",
+  "description_short": "aespa's special single album, featuring the energetic track 'Whiplash'.",
+  "description_full": "'Whiplash' is a special single album by aespa, showcasing a fresh and dynamic sound. The album features six tracks, including the title track 'Whiplash', and highlights aespa's versatility and unique musical style.",
+  "cover_image": "cover.jpg",
+  "tracks": [
+    {
+      "title": "Whiplash",
+      "audio": "01_Whiplash.mp3",
+      "length": "3:12"
+    },
+    {
+      "title": "Kill It",
+      "audio": "02_Kill It.mp3",
+      "length": "3:05"
+    },
+    {
+      "title": "Flights, Not Fellings",
+      "audio": "03_Flights,Not Fellings.mp3",
+      "length": "3:18"
+    },
+    {
+      "title": "Pink Hoodie",
+      "audio": "04_Pink Hoodie.mp3",
+      "length": "2:59"
+    },
+    {
+      "title": "Flowers",
+      "audio": "05_Flowers.mp3",
+      "length": "3:21"
+    },
+    {
+      "title": "Just Another Girl",
+      "audio": "06_Just Another Girl.mp3",
+      "length": "3:10"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+[
+    {
+      "id": "karina",
+      "name": "Karina",
+      "faceArea": {
+        "x": 397,
+        "y": 0,
+        "width": 418,
+        "height": 1024
+      },
+      "infoFile": "assets/members/karina/info.json",
+      "thumb": "assets/members/karina/photos/1.jpg"
+    },
+    {
+      "id": "winter",
+      "name": "Winter",
+      "faceArea": {
+        "x": 40,
+        "y": 0,
+        "width": 418,
+        "height": 1024
+      },
+      "infoFile": "assets/members/winter/info.json",
+      "thumb": "assets/members/winter/photos/1.jpg"
+    },
+    {
+      "id": "ningning",
+      "name": "Ningning",
+      "faceArea": {
+        "x":745,
+        "y": 0,
+        "width": 418,
+        "height": 1024
+      },
+      "infoFile": "assets/members/ningning/info.json",
+      "thumb": "assets/members/ningning/photos/1.jpg"
+    },
+    {
+      "id": "giselle",
+      "name": "Giselle",
+      "faceArea": {
+        "x":1040,
+        "y": 0,
+        "width": 418,
+        "height": 1024
+      },
+      "infoFile": "assets/members/giselle/info.json",
+      "thumb": "assets/members/giselle/photos/1.jpg"
+    }
+  ]

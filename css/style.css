@@ -1,0 +1,114 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; 允许专辑页下滑查看二创区 */
+  overflow-x: hidden;
+}
+
+/* 让底部时间轴容器可穿透，按钮可点，其他区域穿透到底下iframe */
+
+#timeline-container {
+  width: 100vw;
+  min-height: 0;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  background: linear-gradient(0deg,rgba(24,26,27,0.98) 80%,rgba(24,26,27,0.2) 100%);
+  box-shadow: 0 -2px 24px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+#timeline {
+  width: 80vw;
+  max-width: 700px;
+  min-width: 240px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  background: transparent;
+  margin: 0 auto 0 auto;
+  pointer-events: none;
+}
+#timeline::before {
+  display: none;
+  z-index: 1;
+}
+.timeline-dot {
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: none;
+  pointer-events: auto;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  color: #fff;
+  font-size: 1em;
+  min-width: 70px;
+  z-index: 2;
+  transition: color 0.2s;
+}
+.timeline-dot .dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #9a9a9b;
+  margin-bottom: 6px;
+  border: 4px solid #fff;
+  box-shadow: 0 0 8px #75757588;
+  transition: background 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 3;
+}
+.timeline-dot.active .dot {
+  background: #fff;
+  box-shadow: 0 0 16px #9d9c9f;
+}
+.timeline-dot .label {
+  font-size: 1em;
+  text-align: center;
+  line-height: 1.2;
+  font-weight: 500;
+  margin-top: 2px;
+  text-shadow: 0 1px 4px #000a;
+}
+.timeline-dot .label small {
+  font-size: 0.85em;
+  color: #aaa;
+  font-weight: 400;
+}
+@media (max-width: 600px) {
+  #timeline {
+    min-width: 0;
+    width: 98vw;
+    gap: 0;
+  }
+  .timeline-dot {
+    font-size: 0.95em;
+    min-width: 54px;
+  }
+}
+#group-photo {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  display: block;
+}
+/* 让专辑曲目侧边栏歌曲名和序号强制为白色 */
+#album-track-list li strong,
+#album-track-list li span[style*='color:#fff'] {
+  color: #fff !important;
+  font-weight: bold !important;
+}

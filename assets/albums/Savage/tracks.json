@@ -1,0 +1,38 @@
+{
+  "title": "Savage",
+  "description_short": "aespa's first mini album, featuring the powerful title track 'Savage'.",
+  "description_full": "'Savage' is the first mini-album by aespa. It was released on October 5, 2021, with 'Savage' serving as the album's title track. The album contains six tracks, including the title song of the same name, and expresses a worldview story that continues from the previously released 'Black Mamba' and 'Next Level'.\n\nThe title track 'Savage' is a trap genre song centered on drums and bass, with a unique rap and powerful ad-lib, as well as a high-pitched, addictive hook and chorus. The lyrics tell the story of how aespa and their avatar 'ae' go to KWANGYA with the help of 'naevis' and confront 'Black Mamba'.",
+  "cover_image": "cover.jpg",
+  "tracks": [
+    {
+      "title": "aenergy",
+      "audio": "01_aenergy.mp3",
+      "length": "2:27"
+    },
+    {
+      "title": "Savage",
+      "audio": "02_Savage.mp3",
+      "length": "3:58"
+    },
+    {
+      "title": "I'll Make You Cry",
+      "audio": "03_I'll Make You Cry.mp3",
+      "length": "3:34"
+    },
+    {
+      "title": "YEPPI YEPPI",
+      "audio": "04_YEPPI YEPPI.mp3",
+      "length": "3:33"
+    },
+    {
+      "title": "ICONIC",
+      "audio": "05_ICONIC.mp3",
+      "length": "2:59"
+    },
+    {
+      "title": "Lucid Dream",
+      "audio": "06_Lucid Dream.mp3",
+      "length": "3:30"
+    }
+  ]
+}

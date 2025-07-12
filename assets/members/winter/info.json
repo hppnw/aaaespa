@@ -1,0 +1,37 @@
+{
+  "name": "Winter",
+  "birth": "2001-01-01",
+  "introduction": "金旼炡（김민정、Kim Minjeong），艺名WINTER（윈터、ウィンター），2001年1月1日出生于韩国釜山广域市。",
+  "position": "Vocal",
+  "photos": [
+    "assets/members/winter/photo1.jpg",
+    "assets/members/winter/photo2.jpg",
+    "assets/members/winter/photo3.jpg",
+    "assets/members/winter/photo4.jpg",
+    "assets/members/winter/photo5.jpg",
+    "assets/members/winter/photo6.jpg"
+  ],
+  "soloMVs": [
+    {
+      "title": "Spark",
+      "date": "2024-10-09",
+      "embed": {
+        "bilibili": "BV1WAeSe9EPj"
+      }
+    },
+    {
+      "title": "I'M THE DRAMA #WINTER",
+      "date": "2023-11-10",
+      "embed": {
+        "bilibili": "BV1WM411S7Nx"
+      }
+    },
+    {
+      "title": "aespa《Armageddon》Find The Authentic #WINTER",
+      "date": "2024-05-27",
+      "embed": {
+        "bilibili": "BV1dJ4m1c7Mn" 
+      }
+    }
+  ]
+}

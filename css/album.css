@@ -1,0 +1,529 @@
+:root {
+  --primary-color: #ffb6e6;
+  --bg-color: #181a1b;
+  --album-cover: none;
+}
+
+body {
+  background: #181a1b;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+/* 背景图片设置 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--album-cover) center/cover no-repeat;
+  filter: blur(20px) brightness(0.5);
+  transform: scale(1.1); /* 防止模糊边缘 */
+  z-index: 0;
+}
+
+.main-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 48px;
+  padding: 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.left-column {
+  position: relative;
+  flex: 1;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  overflow: hidden;
+  max-width: 33.333%;
+}
+
+.album-info {
+  position: relative;
+  z-index: 1;
+}
+
+.album-info h1 {
+  color: #fff;
+  font-size: 2.4em;
+  margin: 0 0 16px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.album-info p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1em;
+  line-height: 1.6;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.right-column {
+  position: relative;
+  flex: 2;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.cd-section {
+  position: relative;
+  z-index: 1;
+  margin-top: 32px;
+  text-align: center;
+}
+
+.cd-container {
+  width: 280px;
+  height: 280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.cd {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  animation: spin 20s linear infinite;  /* 添加持续旋转动画，20秒转一圈 */
+}
+
+.cd:hover {
+  transform: scale(1.05);  /* 保持放大效果 */
+}
+
+.album-description {
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  margin-top: 48px;  /* 添加上边距，让描述和CD之间有更多间隔 */
+}
+
+.album-description p {
+  margin: 0 0 16px 0;
+}
+
+.album-description p:last-child {
+  margin-bottom: 0;
+}
+
+.mv-section {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 400px;  /* 新增，控制整体高度 */
+  margin: 0 auto;
+}
+
+.mv-card-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;  /* 添加这行，让容器占满mv-section的高度 */
+}
+
+.mv-card {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(24, 26, 27, 0.75);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.mv-title {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 1.2em;
+}
+
+.mv-date {
+  font-size: 0.8em;
+  color: #999;
+  margin-left: 8px;
+}
+
+#mv-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: unset;
+  border-radius: 16px;
+  border: none;
+  background: #000;
+}
+
+.mv-card-nav-btn {
+  background: rgba(30, 32, 34, 0.85);
+  color: #fff;
+  border: none;
+  font-size: 1.5em;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.mv-card-nav-btn:hover {
+  background: rgba(40, 42, 44, 0.85);
+}
+
+.mv-card-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.poster-section {
+  margin-bottom: 48px;
+  height: 400px;  /* 设置固定高度 */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 780px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+  background: none;
+  backdrop-filter: none;
+  padding: 0;
+}
+
+.carousel-inner {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  width: 780px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+.carousel-item {
+  width: 240px;
+  height: 340px;
+  object-fit: cover;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.22);
+  background: #222;
+  flex-shrink: 0;
+  margin: 0;
+  background-size: cover;
+}
+
+.carousel-nav {
+  position: absolute;
+  top: 50%;
+  left: -60px;  /* 从0改为-60px，按钮向外移动 */
+  right: -60px;  /* 从0改为-60px，按钮向外移动 */
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0;  /* 移除内边距，因为按钮已经向外移动 */
+  pointer-events: none;
+}
+
+.carousel-nav button {
+  background: rgba(30,32,34,0.85);
+  color: #fff;
+  border: none;
+  font-size: 2.2em;
+  width: 48px;
+  height: 64px;
+  border-radius: 16px;
+  margin: 0;  /* 移除margin，因为已经通过left/right调整了位置 */
+  cursor: pointer;
+  transition: background 0.2s;
+  z-index: 2;
+  pointer-events: auto;
+}
+
+.carousel-nav button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.carousel-nav button:hover:not(:disabled) {
+  background: #444;
+}
+
+#album-hamburger {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: rgba(30, 32, 34, 0.85);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;  /* 调整为和二创按钮一样的内边距 */
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+
+#album-hamburger span {
+  display: inline-block;
+  width: 20px;  /* 减小汉堡图标的大小 */
+  height: 18px;  /* 减小汉堡图标的大小 */
+}
+
+#album-hamburger span span {
+  display: block;
+  width: 100%;
+  height: 2px;  /* 减小线条高度 */
+  background: #fff;
+  border-radius: 1px;
+  margin-bottom: 6px;
+}
+
+#album-hamburger span span:last-child {
+  margin-bottom: 0;
+}
+
+#album-track-sidebar {
+  position: fixed;
+  top: 0;
+  right: -100%;  /* 改回从右侧滑出 */
+  width: 360px;
+  height: 100vh;
+  background: rgba(30, 32, 34, 0.95);
+  backdrop-filter: blur(20px);
+  box-shadow: -2px 0 24px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 24px 0;
+  overflow-y: auto;
+}
+
+#album-track-sidebar.active {
+  right: 0;  /* 改回从右侧滑出 */
+}
+
+#album-track-sidebar ul {
+  list-style: none;
+  margin: 0;
+  padding: 24px;
+}
+
+#album-track-sidebar .track-item {
+  margin-bottom: 18px;
+  color: #fff;
+}
+
+#album-track-sidebar .track-item span {
+  color: #fff !important;
+}
+
+#album-track-sidebar .close-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+}
+
+#gallery-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1001;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: none;
+  padding: 48px;
+}
+
+#gallery-overlay.active {
+  display: flex;
+}
+
+.gallery-content-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 1200px;  /* 限制最大宽度 */
+  margin: 0 auto;     /* 居中显示 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gallery-grid {
+  height: 600px;  /* 增加高度从400px到600px */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  background: none;
+}
+
+/* 确保二创区域的卡片容器样式与MV区域一致 */
+.gallery-grid .mv-card-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 100%;
+  width: 100%;
+}
+
+/* 确保二创区域的卡片样式与MV区域一致 */
+.gallery-grid .mv-card {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* 使二创区域的iframe和MV区域保持一致的样式 */
+#gallery-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: unset;
+  border-radius: 16px;
+  border: none;
+  background: #000;
+}
+
+/* 确保二创区域的标题样式和MV区域一致 */
+#gallery-title {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 1.2em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);  /* 添加文字阴影提高可读性 */
+}
+
+/* 确保二创区域的导航按钮样式与MV区域一致 */
+.gallery-grid .mv-card-nav-btn {
+  background: rgba(30, 32, 34, 0.85);
+  color: #fff;
+  border: none;
+  font-size: 1.5em;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gallery-grid .mv-card-nav-btn:hover {
+  background: rgba(40, 42, 44, 0.85);
+}
+
+.gallery-grid .mv-card-nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 调整关闭按钮位置 */
+#gallery-overlay .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 8px;
+  line-height: 1;
+  z-index: 2;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+#gallery-overlay .close-btn:hover {
+  opacity: 1;
+}
+
+#gallery-btn {
+  position: fixed;
+  bottom: 24px;  /* 移到右下角 */
+  right: 24px;
+  background: rgba(30, 32, 34, 0.85);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 14px;
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  color: #fff;
+  font-size: 1.2em;
+}
+
+
+/* 滚动条样式 */
+.left-column::-webkit-scrollbar,
+.right-column::-webkit-scrollbar {
+  width: 6px;
+}
+
+.left-column::-webkit-scrollbar-track,
+.right-column::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.left-column::-webkit-scrollbar-thumb,
+.right-column::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.left-column::-webkit-scrollbar-thumb:hover,
+.right-column::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

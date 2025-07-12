@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aespa 首页 </title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/main.js" defer></script>
+    <script src="js/timeline.js" defer></script>
+    <style>
+      #page-transition-mask {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #181a1b;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s cubic-bezier(.4,0,.2,1), transform 0.5s cubic-bezier(.4,0,.2,1);
+        will-change: opacity, transform;
+      }
+      #page-transition-mask.active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: scale(1.04);
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let mask = document.createElement('div');
+        mask.id = 'page-transition-mask';
+        document.body.appendChild(mask);
+        document.querySelectorAll('.timeline-dot').forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            var album = btn.getAttribute('data-album');
+            if(album) {
+              mask.classList.add('active');
+              setTimeout(function(){
+                window.location.href = 'album.html?album=' + encodeURIComponent(album);
+              }, 420);
+            }
+          });
+        });
+      });
+    </script>
+</head>
+<body>
+    <div id="hero">
+      <img id="group-photo" src="assets/img/aespa-group.jpg" usemap="#members" />
+      <map name="members">
+        <area shape="rect" coords="100,80,280,400" href="member.html?member=karina" />
+      </map>
+    </div>
+  
+    <div id="timeline-container">
+      <div id="timeline">
+        <button class="timeline-dot" data-album="savage"><span class="label"><small>2021-10-05</small><span>Savage</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="girls"><span class="label"><small>2022-07-08</small><span>Girls</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="my_world"><span class="label"><small>2023-05-08</small><span>My World</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="drama"><span class="label"><small>2023-11-10</small><span>Drama</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="armageddon"><span class="label"><small>2024-05-27</small><span>Armageddon</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="whiplash"><span class="label"><small>2024-10-21</small><span>Whiplash</span></span><span class="dot"></span></button>
+        <!-- <button class="timeline-dot" data-album="single1"><span class="label"><small>鍗曟洸1</small><span>棰勭暀</span></span><span class="dot"></span></button>
+        <button class="timeline-dot" data-album="single2"><span class="label"><small>鍗曟洸2</small><span>棰勭暀</span></span><span class="dot"></span></button> -->
+      </div>
+    </div>
+    <style>
+      #timeline-container {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50 !important;
+        background: linear-gradient(0deg,rgba(24,26,27,0.98) 65%,rgba(24,26,27,0.2) 100%);
+        box-shadow: 0 -2px 24px rgba(0,0,0,0.12);
+        padding-bottom: calc(env(safe-area-inset-bottom, 0) + 18px);
+        display: flex;
+        justify-content: center;
+      }
+
+      #timeline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 64px;
+        padding: 0 0 0 0;
+        background: transparent;
+        transform: none;
+      }
+      .timeline-dot {
+        background: none;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: color 0.2s;
+        color: #fff;
+        font-size: 1em;
+        min-width: 70px;
+      }
+      .timeline-dot .dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #9a9a9c;
+        margin-bottom: 6px;
+        border: 3px solid #fff;
+        box-shadow: 0 0 8px #9b9a9c88;
+        transition: background 0.2s, box-shadow 0.2s;
+      }
+      .timeline-dot.active .dot {
+        background: #fff;
+        box-shadow: 0 0 16px #9a9a9a;
+      }
+      .timeline-dot .label {
+        font-size: 1em;
+        text-align: center;
+        line-height: 1.1;
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      .timeline-dot .label small {
+        font-size: 0.85em;
+        color: #aaa;
+        font-weight: 400;
+        white-space: nowrap;
+        line-height: 1.05;
+        margin-bottom: -2px;
+        display: block;
+      }
+      .timeline-dot .label span:last-child {
+        margin-top: 0;
+        line-height: 1.1;
+        display: block;
+      }
+      @media (max-width: 600px) {
+        #timeline {
+          gap: 18px;
+        }
+        .timeline-dot {
+          font-size: 0.95em;
+          min-width: 54px;
+        }
+      }
+    </style>
+  
+    <div id="mv-area" style="display:none; position:fixed; inset:0; z-index:10;">
+      <iframe id="mv-player" src="" frameborder="0" allowfullscreen style="width:100vw;height:100vh;"></iframe>
+      <button id="back-btn" style="position:absolute;top:24px;left:24px;z-index:12;pointer-events:auto;">杩斿洖棣栭〉</button>
+    </div>
+  
+    <section id="gallery" style="display:none; position:relative; z-index:12;">
+    </section>
+  
+</body>
+</html>
+  
