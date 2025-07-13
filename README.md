@@ -69,7 +69,6 @@ root
 2. 背景图层 `right-bg` 使用首张写真 + `filter: blur(32px)` 制造深度。  
 3. 相册分页：`galleryIndex` 控制每页 3 张图片；`updateNav()` 切换按钮状态，使用 `loading="lazy"` 减少首屏资源。  
 4. Solo MV：`mvs` 数组 iframe 自动播放，切换前先清空 `src` 以停止上一视频。  
-5. 全局可访问性：所有交互元素增加 `aria-label`，图片加入 `alt`，通过 Lighthouse A11y > 95 分。  
 
 * 读取 `assets/members/{id}/info.json` 渲染基本信息与画廊。
 * 如果首页 transition 存在，则从 `sessionStorage` 还原裁剪头像，保证视觉连贯。
@@ -97,7 +96,7 @@ root
   if(!oEmbedValid(url)) return 400;
   return db.collection('fanmedia').add({...body,createdAt:Date.now()});
   ```
-* 前端刷新：Cloud Function 触发 Firestore onWrite → 推送 Cloud Messaging? (后续)
+* 前端刷新：Cloud Function 触发 Firestore onWrite → 推送 Cloud Messaging (后续)
 
 ### 4.2 Photo Booth (大头贴)
 | Step | 实现 | 依赖 |
