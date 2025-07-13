@@ -84,8 +84,9 @@ function loadMemberInfo(data, memberId) {
   }
 
   document.getElementById("member-name").textContent = data.name;
-  document.getElementById("member-position").textContent = data.position;
+  document.getElementById("member-MBTI").textContent = data.MBTI;
   document.getElementById("member-birth").textContent = `生日：${data.birth}`;
+  document.getElementById("member-introduction").textContent = data.introduction; 
 
   const gallery = document.getElementById("photo-gallery");
   gallery.innerHTML = "";

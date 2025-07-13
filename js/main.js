@@ -1,4 +1,3 @@
-// main.js - 澶勭悊棣栭〉閫昏緫锛屽寘鎷� canvas 瑁佸垏銆佽浆鍦恒€丮V鍔犺浇绛�
 
 const groupImgPath = "assets/img/aespa-group.jpg";
 const canvas = document.createElement("canvas");
@@ -6,7 +5,6 @@ const ctx = canvas.getContext("2d");
 const transitionImg = new Image();
 let memberData = null;
 
-// 棰勫姞杞介�栭〉鎴愬憳淇℃伅
 fetch("js/data/members.json")
   .then((res) => res.json())
   .then((data) => {
@@ -14,7 +12,6 @@ fetch("js/data/members.json")
     setupClickAreas();
   });
 
-// 璁剧疆鐐瑰嚮鍖哄煙锛堟牴鎹�鍥剧墖缂╂斁鍔ㄦ€佸畾浣嶏級
 function setupClickAreas() {
   const groupImg = document.getElementById("group-photo");
   const mapOverlay = document.createElement("div");
@@ -54,7 +51,6 @@ function setupClickAreas() {
     window.addEventListener("resize", updatePosition);
 
     region.addEventListener("click", (e) => {
-      // 鍙�鏈夋病鏈塎V鑳屾櫙鏃舵墠鍏佽�歌烦杞�
       if (document.getElementById('mv-bg')) return;
       e.preventDefault();
       animateMemberTransition(member);
@@ -64,7 +60,6 @@ function setupClickAreas() {
   });
 }
 
-// 瑁佸垏骞跺姩鐢昏浆鍦猴紙鍐嶈烦杞�锛�
 function animateMemberTransition(member) {
   const img = new Image();
   img.src = groupImgPath;
@@ -74,7 +69,6 @@ function animateMemberTransition(member) {
     canvas.height = img.naturalHeight;
     ctx.drawImage(img, 0, 0);
 
-    // 鍒涘缓鍏ㄥ睆妯＄硦閬�缃�
     const blurMask = document.createElement("div");
     blurMask.id = "blur-mask";
     blurMask.style.position = "fixed";
@@ -89,7 +83,6 @@ function animateMemberTransition(member) {
     blurMask.style.opacity = "1";
     document.body.appendChild(blurMask);
 
-    // 鍒涘缓澶村儚瑁佸垏瀹瑰櫒
     const transitionContainer = document.createElement("div");
     transitionContainer.id = "transition-container";
     transitionContainer.style.position = "fixed";
@@ -101,7 +94,6 @@ function animateMemberTransition(member) {
     transitionContainer.style.overflow = "visible";
     transitionContainer.style.pointerEvents = "none";
 
-    // 鍙�瑁佸垏鎴愬憳鍖哄煙
     const avatarCanvas = document.createElement("canvas");
     avatarCanvas.width = width;
     avatarCanvas.height = height;
@@ -112,7 +104,6 @@ function animateMemberTransition(member) {
     const cutBase64 = avatarCanvas.toDataURL();
     avatarImg.src = cutBase64;
     avatarImg.style.position = "absolute";
-    // 鍒濆�嬪�介珮鍜屼綅缃�锛堜笌鍘熷浘绛夋瘮缂╂斁锛�
     const scaleX = window.innerWidth / img.naturalWidth;
     const scaleY = window.innerHeight / img.naturalHeight;
     const startW = width * scaleX;
@@ -133,8 +124,7 @@ function animateMemberTransition(member) {
     document.body.appendChild(transitionContainer);
 
     setTimeout(() => {
-      // 鐩�鏍囧�藉害涓烘垚鍛橀〉宸︿晶瀹藉害锛屼繚鎸佹瘮渚嬬缉鏀撅紝宸﹀�归綈锛岄《閮ㄥ�归綈
-      const targetW = 340; // 涓庢垚鍛橀〉 #member-left 瀹藉害涓€鑷�
+      const targetW = 340;
       const scale = targetW / startW;
       avatarImg.style.transformOrigin = "top left";
       avatarImg.style.transform = `scale(${scale})`;
@@ -149,7 +139,6 @@ function animateMemberTransition(member) {
     }, 800);
 
     setTimeout(() => {
-      // 鐢� sessionStorage 浼犻€掕�佸垏鍥剧墖锛岄伩鍏� URL 杩囬暱
       try {
         sessionStorage.setItem('aespa_member_cut', cutBase64);
       } catch (e) {}
