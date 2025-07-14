@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户注册</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body { background: #181828; color: #fff; font-family: 'Segoe UI',sans-serif; }
+    .register-container { max-width: 380px; margin: 80px auto; background: #23234a; border-radius: 16px; box-shadow: 0 4px 32px #0005; padding: 32px 28px; }
+    .register-container h2 { text-align: center; margin-bottom: 24px; color: #b6e6ff; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; margin-bottom: 6px; color: #b6e6ff; }
+    .form-group input { width: 100%; padding: 8px 12px; border-radius: 6px; border: 1px solid #aaa2; background: #23234a; color: #fff; font-size: 1em; }
+    .form-group input:focus { outline: none; border-color: #b6e6ff; }
+    .error-msg { color: #ff6b81; margin-bottom: 10px; min-height: 20px; }
+    .register-btn { width: 100%; background: linear-gradient(90deg,#b6e6ff,#ffb6e6); color: #23234a; border: none; border-radius: 6px; padding: 10px 0; font-size: 1.1em; font-weight: bold; cursor: pointer; margin-top: 8px; }
+    .register-btn:hover { background: linear-gradient(90deg,#ffb6e6,#b6e6ff); }
+    .switch-link { display: block; text-align: right; margin-top: 10px; color: #ffb6e6; text-decoration: underline; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>用户注册</h2>
+    <div class="error-msg" id="error-msg"></div>
+    <form id="register-form" autocomplete="off">
+      <div class="form-group">
+        <label for="username">用户名</label>
+        <input type="text" id="username" name="username" maxlength="20" required>
+      </div>
+      <div class="form-group">
+        <label for="password">密码</label>
+        <input type="password" id="password" name="password" maxlength="32" required>
+      </div>
+      <div class="form-group">
+        <label for="password2">确认密码</label>
+        <input type="password" id="password2" name="password2" maxlength="32" required>
+      </div>
+      <button type="submit" class="register-btn">注册</button>
+    </form>
+    <a class="switch-link" href="#" id="to-login">已有账号？去登录</a>
+  </div>
+  <script>
+    // 注册表单校验和提交
+    document.getElementById('register-form').onsubmit = async function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+      const errorMsg = document.getElementById('error-msg');
+      errorMsg.textContent = '';
+      if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
+        errorMsg.textContent = '用户名需为3-20位字母数字或下划线'; return;
+      }
+      if (password.length < 6) {
+        errorMsg.textContent = '密码至少6位'; return;
+      }
+      if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+        errorMsg.textContent = '密码需包含字母和数字'; return;
+      }
+      if (password !== password2) {
+        errorMsg.textContent = '两次输入的密码不一致'; return;
+      }
+      // 提交
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        errorMsg.style.color = '#2ecc71';
+        errorMsg.textContent = '注册成功，正在跳转...';
+        setTimeout(()=>{ window.location.href = 'index.html'; }, 800);
+      } else {
+        errorMsg.style.color = '#ff6b81';
+        errorMsg.textContent = data.message || '注册失败';
+      }
+    };
+    // 跳转登录页
+    document.getElementById('to-login').onclick = function(e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    };
+  </script>
+</body>
+</html>

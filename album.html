@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>aespa 专辑展示</title>
   <link rel="stylesheet" href="css/album.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="css/icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="js/reloader.js" defer></script>
 </head>
 
@@ -32,12 +33,21 @@
     <div class="right-column">
       <section class="mv-section">
         <div class="mv-card-container">
-          <button id="mv-prev" class="gallery-nav mv-card-nav-btn">&#8592;</button>
+          <button id="mv-prev" class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
           <div class="mv-card">
-            <div class="mv-title" id="mv-title"></div>
+            <div class="mv-title" id="mv-title">
+              <div class="mv-info">
+                <h3 class="mv-name"></h3>
+                <span class="mv-date"></span>
+              </div>
+              <div class="icon-group">
+                <button class="icon-btn small share" title="分享"><i class="fas fa-share"></i></button>
+                <button class="icon-btn small" title="全屏"><i class="fas fa-expand"></i></button>
+              </div>
+            </div>
             <iframe id="mv-iframe" allowfullscreen></iframe>
           </div>
-          <button id="mv-next" class="gallery-nav mv-card-nav-btn">&#8594;</button>
+          <button id="mv-next" class="nav-btn next"><i class="fas fa-chevron-right"></i></button>
         </div>
       </section>
       <section class="poster-section">
@@ -46,8 +56,8 @@
             <!-- Poster items will be injected by JS -->
           </div>
           <div class="carousel-nav">
-            <button class="prev"><i class="fas fa-chevron-left"></i></button>
-            <button class="next"><i class="fas fa-chevron-right"></i></button>
+            <button class="nav-btn prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="nav-btn next"><i class="fas fa-chevron-right"></i></button>
           </div>
         </div>
       </section>
@@ -60,6 +70,11 @@
       <button class="close-btn" id="gallery-close-btn" title="关闭">×</button>
       <div class="gallery-grid">
         <!-- Gallery grid items will be injected by JS -->
+        <div class="upload-section" style="margin-top:20px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;">
+          <input type="text" id="upload-input" placeholder="输入B站视频链接，如 https://www.bilibili.com/video/BVxxxx" style="padding:8px 12px;border-radius:6px;border:none;outline:none;min-width:260px;width:60%;max-width:480px;" />
+          <button id="upload-btn" style="padding:8px 16px;border:none;border-radius:6px;background:#ffb6e6;color:#fff;cursor:pointer;">添加</button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -85,6 +100,115 @@
 
   <!-- Scripts -->
   <script src="js/album.js"></script>
+</body>
+
+  <!-- 评论按钮和弹窗 -->
+  <link rel="stylesheet" href="css/comments.css">
+  <button id="comment-btn" title="评论区">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffb6e6" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  </button>
+  
+  <div id="comment-modal" class="comment-modal">
+    <div class="comment-container">
+      <div class="comment-header">
+        <h3>专辑评论区</h3>
+        <button id="comment-close" class="comment-close">×</button>
+      </div>
+      <div id="comment-list" class="comment-list">加载中...</div>
+      <div class="comment-editor">
+        <textarea id="comment-input" class="comment-input" placeholder="写下你的评论..."></textarea>
+        <button id="comment-submit" class="comment-submit">发表评论</button>
+        <div class="comment-tip">支持匿名评论，登录后可删除自己的评论</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 评论弹窗逻辑
+    const commentBtn = document.getElementById('comment-btn');
+    const commentModal = document.getElementById('comment-modal');
+    const commentClose = document.getElementById('comment-close');
+    const commentList = document.getElementById('comment-list');
+    const commentInput = document.getElementById('comment-input');
+    const commentSubmit = document.getElementById('comment-submit');
+    let albumId = location.search.match(/album=([^&]+)/) ? decodeURIComponent(RegExp.$1) : 'unknown';
+
+    function loadComments() {
+      commentList.innerHTML = '<div class="comment-loading">加载中...</div>';
+      fetch(`/api/comment?target=album_${albumId}`).then(r=>r.json()).then(res=>{
+        if(!res.success) { 
+          commentList.innerHTML = '<div class="comment-error">加载失败，请稍后重试</div>'; 
+          return; 
+        }
+        if(!res.data || !res.data.length) { 
+          commentList.innerHTML = '<div class="empty-tip">暂无评论，快来抢沙发吧！</div>'; 
+          return; 
+        }
+        commentList.innerHTML = res.data.map(item => `
+          <div class="comment-item">
+            <div class="comment-user">
+              <span class="comment-username">${item.username || '匿名用户'}</span>
+              <span class="comment-time">${item.created_at ? new Date(item.created_at).toLocaleString('zh-CN', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit'
+              }) : ''}</span>
+            </div>
+            <div class="comment-content">${item.content.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+            <div class="comment-actions">
+              <span class="comment-like" onclick="likeComment(${item.id})">
+                <i class="fas fa-thumbs-up"></i>
+                <span id="like-count-${item.id}">${item.likes || 0}</span>
+              </span>
+              ${item.user_id ? `
+                <span class="comment-delete" onclick="deleteComment(${item.id})">
+                  <i class="fas fa-trash-alt"></i> 删除
+                </span>
+              ` : ''}
+            </div>
+          </div>
+        `).join('');
+      }).catch(() => {
+        commentList.innerHTML = '<div class="comment-error">网络错误，请稍后重试</div>';
+      });
+    }
+
+    commentBtn.onclick = function() {
+      commentModal.style.display = 'flex';
+      loadComments();
+    };
+    commentClose.onclick = function() {
+      commentModal.style.display = 'none';
+    };
+    commentSubmit.onclick = function() {
+      const content = commentInput.value.trim();
+      if(!content) return alert('评论不能为空');
+      fetch('/api/comment', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ target: 'album_' + albumId, content })
+      }).then(r=>r.json()).then(res=>{
+        if(res.success) {
+          commentInput.value = '';
+          loadComments();
+        } else {
+          alert(res.message||'评论失败');
+        }
+      });
+    };
+    window.likeComment = function(id) {
+      fetch('/api/comment/like', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})})
+        .then(r=>r.json()).then(res=>{if(res.success){let el=document.getElementById('like-count-'+id);if(el)el.innerText=parseInt(el.innerText)+1;}});
+    };
+    window.deleteComment = function(id) {
+      if(!confirm('确定要删除这条评论吗？')) return;
+      fetch('/api/comment/'+id, {method:'DELETE'}).then(r=>r.json()).then(res=>{if(res.success)loadComments();else alert(res.message||'删除失败');});
+    };
+    // 点击弹窗外关闭
+    commentModal.addEventListener('click', function(e){ if(e.target===this) commentModal.style.display='none'; });
+  </script>
 </body>
 
 </html>

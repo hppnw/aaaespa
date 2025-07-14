@@ -1,3 +1,19 @@
+// Helper to persist video (global)
+async function saveUserVideo(video) {
+  try {
+    const res = await fetch('/api/gallery', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(video)
+    });
+    if (!res.ok) {
+      console.warn('Failed to save video:', await res.text());
+    }
+  } catch (err) {
+    console.error('Error saving video:', err);
+  }
+}
+
 // Global variables
 let officialMVs = [];
 let mvIndex = 0;
@@ -28,6 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Element Selectors ---
   const elements = {
+
     albumTitle: document.getElementById('album-title'),
     albumIntro: document.getElementById('album-intro'),
     cdCover: document.getElementById('cd-cover'),
@@ -110,6 +127,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- Data Fetching & Rendering ---
   async function loadAlbumData() {
+    // 1. 拉取当前用户收藏状态
+    let favoriteList = [];
+    try {
+      const favRes = await fetch('/api/favorite');
+      if (favRes.ok) {
+        const favData = await favRes.json();
+        if (favData.success && Array.isArray(favData.data)) {
+          favoriteList = favData.data.filter(f=>f.fav_type==='track').map(f=>f.fav_id);
+        }
+      }
+    } catch {}
     try {
       console.log('Loading album data from:', `${basePath}tracks.json`);
       const res = await fetch(`${basePath}tracks.json`);
@@ -136,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Tracks
       if (Array.isArray(data.tracks)) {
-        renderTracks(data.tracks);
+        renderTracks(data.tracks, favoriteList);
       } else {
         console.error('Tracks data is not an array:', data.tracks);
       }
@@ -202,7 +230,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       const galleryData = await galleryRes.json();
       console.log('Gallery data loaded:', galleryData);
-      renderGalleryGrid(galleryData);
+      // 合并后端用户上传
+    let userVideos = [];
+    try {
+      const userRes = await fetch('/api/gallery');
+      if (userRes.ok) userVideos = await userRes.json();
+    } catch {}
+    const merged = Array.isArray(galleryData) ? [...galleryData, ...userVideos] : { items: [...(galleryData.items||[]), ...userVideos] };
+    renderGalleryGrid(merged);
     } catch (e) { 
       console.error('Failed to load gallery:', e);
       // 如果加载失败，显示错误信息
@@ -213,19 +248,76 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  function renderTracks(tracks) {
+  function renderTracks(tracks, favoriteList = [], commentLikeMap = {}) {
     elements.trackList.innerHTML = '';
     tracks.forEach((track, i) => {
       const li = document.createElement('li');
       li.className = 'track-item';
       li.style.marginBottom = '18px';
-      let html = `<div><span style="color:#fff;font-weight:bold;">${i + 1}. ${track.title}</span> <span style="color:#aaa;font-size:0.95em;">${track.length ? `(${track.length})` : ''}</span></div>`;
+      // 唯一标识
+      const album = new URLSearchParams(window.location.search).get('album') || 'unknown';
+      const trackId = `track_${album}_${track.title}`;
+      // 判断收藏状态
+      const isFav = favoriteList.includes(trackId);
+      let html = `<div style="display:flex;align-items:center;gap:10px;">
+        <span style="color:#fff;font-weight:bold;">${i + 1}. ${track.title}</span>
+        <span style="color:#aaa;font-size:0.95em;">${track.length ? `(${track.length})` : ''}</span>
+        <button class="track-fav-btn${isFav ? ' fav' : ''}" data-id="${trackId}" title="收藏" style="background:none;border:none;cursor:pointer;padding:0 4px;display:flex;align-items:center;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="${isFav ? '#ffb6e6' : 'none'}" stroke="#ffb6e6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </button>
+      </div>`;
       if (track.audio) {
         html += `<div style="margin-top:8px;"><audio controls src="assets/albums/${album}/${track.audio}" style="width:100%;border-radius:16px;background:#fff;" preload="none"></audio></div>`;
       }
       li.innerHTML = html;
       elements.trackList.appendChild(li);
     });
+    // 绑定收藏事件
+    document.querySelectorAll('.track-fav-btn').forEach(btn => {
+      btn.onclick = async function() {
+        const id = btn.getAttribute('data-id');
+        const fav = btn.classList.contains('fav');
+        btn.disabled = true;
+        if(fav){
+          // 取消收藏，需查找收藏id
+          let favId = null;
+          try {
+            const favRes = await fetch('/api/favorite');
+            if(favRes.ok){
+              const favData = await favRes.json();
+              if(favData.success && Array.isArray(favData.data)){
+                const found = favData.data.find(f=>f.fav_type==='track'&&f.fav_id===id);
+                if(found) favId = found.id;
+              }
+            }
+          } catch{}
+          if(favId){
+            const delRes = await fetch('/api/favorite/'+favId, {method:'DELETE'});
+            const delData = await delRes.json();
+            if(delData.success){
+              btn.classList.remove('fav');
+              const svg = btn.querySelector('svg');
+              if(svg) svg.setAttribute('fill','none');
+            }else{
+              alert('取消收藏失败');
+            }
+          }
+        }else{
+          // 收藏
+          const res = await fetch('/api/favorite', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fav_type:'track',fav_id:id})});
+          const data = await res.json();
+          if(data.success){
+            btn.classList.add('fav');
+            const svg = btn.querySelector('svg');
+            if(svg) svg.setAttribute('fill','#ffb6e6');
+          }else{
+            alert(data.message||'收藏失败');
+          }
+        }
+        btn.disabled = false;
+      };
+    });
+  // 移除多余闭合
   }
 
   // --- Event Listeners ---
@@ -253,10 +345,57 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  // ---- User Upload (Bilibili link) ----
+  const uploadInput = document.getElementById('upload-input');
+  const uploadBtn = document.getElementById('upload-btn');
+  if (uploadBtn && uploadInput) {
+    uploadBtn.addEventListener('click', () => {
+      const link = uploadInput.value.trim();
+      if (!link) {
+        alert('请输入链接');
+        return;
+      }
+
+      // 解析BVID
+      let newVideo = null;
+      const todayStr = new Date().toISOString().split('T')[0];
+      const bvidMatch = link.match(/BV[0-9A-Za-z]{10,}/);
+      if (bvidMatch) {
+        newVideo = {
+          type: 'bilibili',
+          bvid: bvidMatch[0],
+          title: todayStr
+        };
+      } else {
+        // 其他链接直接iframe
+        newVideo = {
+          type: 'iframe',
+          url: link,
+          title: todayStr
+        };
+      }
+
+      galleryVideos.push(newVideo);
+      galleryIndex = galleryVideos.length - 1;
+
+      // 如果已渲染过gallery结构，直接更新；否则重绘
+      if (document.getElementById('gallery-iframe')) {
+        updateGalleryVideo();
+      } else {
+        renderGalleryGrid(galleryVideos);
+      }
+
+      uploadInput.value = '';
+      saveUserVideo(newVideo);
+    });
+  }
+
   // 覆盖浏览器返回键逻辑，直接返回首页
   window.addEventListener('popstate', function (e) {
     window.location.href = 'index.html';
   });
+
 
   // --- Initialize ---
   loadAlbumData();
@@ -462,6 +601,38 @@ function renderGalleryGrid(gallery) {
 
   // 初始化显示第一个视频
   updateGalleryVideo();
+
+  // --- Add Button to Upload New Video ---
+  const addRow = document.createElement('div');
+  addRow.style.marginTop = '16px';
+  addRow.style.textAlign = 'center';
+  addRow.innerHTML = `<button id="add-video-btn" title="添加二创视频" style="padding:8px 0;border:none;border-radius:50%;width:48px;height:48px;font-size:28px;line-height:1;background:#ffb6e6;color:#fff;cursor:pointer;">＋</button>`;
+  galleryGrid.appendChild(addRow);
+
+  const addVideoBtn = document.getElementById('add-video-btn');
+  if (addVideoBtn) {
+    addVideoBtn.onclick = () => {
+      const link = prompt('请输入B站视频链接或其它视频URL');
+      if (!link) return;
+
+      const trimmed = link.trim();
+      const bvidMatch = trimmed.match(/BV[0-9A-Za-z]{10,}/);
+      let newVideo;
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (bvidMatch) {
+        newVideo = { type: 'bilibili', bvid: bvidMatch[0], title: todayStr };
+      } else {
+        newVideo = { type: 'iframe', url: trimmed, title: todayStr };
+      }
+      galleryVideos.push(newVideo);
+      galleryIndex = galleryVideos.length - 1;
+      updateGalleryVideo();
+      saveUserVideo(newVideo);
+    };
+  }
+
+  // 结束渲染
+  updateGalleryVideo();
 }
 
 // 更新二创视频显示
@@ -588,19 +759,4 @@ function handleKeydown(e) {
 
 // 添加关闭按钮事件
 const galleryCloseBtn = document.getElementById('gallery-close-btn');
-if (galleryCloseBtn) {
-  galleryCloseBtn.addEventListener('click', () => {
-    if (elements.galleryOverlay) {
-      elements.galleryOverlay.classList.remove('active');
-    }
-  });
-}
 
-// 点击遮罩层关闭
-if (elements.galleryOverlay) {
-  elements.galleryOverlay.addEventListener('click', (e) => {
-    if (e.target === elements.galleryOverlay) {
-      elements.galleryOverlay.classList.remove('active');
-    }
-  });
-}

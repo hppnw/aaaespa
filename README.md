@@ -9,8 +9,6 @@
 * **纯前端 + JSON 资源** 架构，未来通过 Serverless 注入动态能力。
 * 已完成三个核心页面（首页 / 专辑 / 成员）与多媒体交互；二创上传 & PhotoBooth 正在设计。
 
-完整代码内容可查看仓库：https://github.com/hppnw/aaaespa.git
-
 ---
 
 ## 1.1 代码与目录结构
@@ -35,9 +33,9 @@ root
 1. 加载 `js/data/members.json` 后调用 `setupClickAreas()` 动态计算四人海报成员热区，使用 **元素实际尺寸 / 原图尺寸** 的比例实现自适应。  
 2. 点击热区触发 `animateMemberTransition(member)`：  
    • 在离屏 `<canvas>` 裁剪头像并缓存至 `sessionStorage`。  
-   • 创建 `blur-mask`（背景虚化）与 `transition-container`（头像缩放）实现 0.8 s Material Motion 转场。  
+   • 创建 `blur-mask`（背景虚化）与 `transition-container`（头像缩放）实现 Material Motion 转场。  
    • 结束后通过 `window.location.href` 跳转 `member.html?member=id`。  
-3. 时间轴 `button.timeline-dot` 使用 `data-album` 存储目标专辑，点击时盖一层 `#page-transition-mask` 并延迟 420 ms 导航，避免 GitHub Pages 白屏。  
+3. 时间轴 `button.timeline-dot` 使用 `data-album` 存储目标专辑。
 
 ---
 
@@ -68,7 +66,7 @@ root
 1. `loadMemberInfo(data,id)` 渲染信息面板；若检测到 `aespa_member_cut` 则把头像替换为无圆角版本，延续首页动效。  
 2. 背景图层 `right-bg` 使用首张写真 + `filter: blur(32px)` 制造深度。  
 3. 相册分页：`galleryIndex` 控制每页 3 张图片；`updateNav()` 切换按钮状态，使用 `loading="lazy"` 减少首屏资源。  
-4. Solo MV：`mvs` 数组 iframe 自动播放，切换前先清空 `src` 以停止上一视频。  
+4. Solo MV：`mvs` 数组 iframe 自动播放，切换前先清空 `src` 以停止上一视频。   
 
 * 读取 `assets/members/{id}/info.json` 渲染基本信息与画廊。
 * 如果首页 transition 存在，则从 `sessionStorage` 还原裁剪头像，保证视觉连贯。
@@ -96,7 +94,7 @@ root
   if(!oEmbedValid(url)) return 400;
   return db.collection('fanmedia').add({...body,createdAt:Date.now()});
   ```
-* 前端刷新：Cloud Function 触发 Firestore onWrite → 推送 Cloud Messaging (后续)
+* 前端刷新：Cloud Function 触发 Firestore onWrite → 推送 Cloud Messaging? (后续)
 
 ### 4.2 Photo Booth (大头贴)
 | Step | 实现 | 依赖 |

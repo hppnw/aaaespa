@@ -1,0 +1,347 @@
+/* 用户中心样式 */
+.user-center-container {
+  max-width: 360px;
+  margin: 48px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-title {
+  font-size: 1.75em;
+  font-weight: 600;
+  color: #ffb6e6;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-container {
+  position: relative;
+  min-height: 520px;
+  width: 100%;
+}
+
+.user-form {
+  display: none;
+  width: 100%;
+}
+
+.user-form.active {
+  display: block;
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-group input {
+  width: 260px;
+  padding: 12px 16px;
+  border: 2px solid #eee;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+
+.input-group input:focus {
+  border-color: #ffb6e6;
+  box-shadow: 0 0 0 3px rgba(255,182,230,0.1);
+}
+
+.input-group label {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  transition: all 0.3s;
+  pointer-events: none;
+  font-size: 15px;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: 0;
+  font-size: 12px;
+  background: #fff;
+  padding: 0 4px;
+}
+
+.btn {
+  width: 260px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-primary {
+  background: #ffb6e6;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #ff9ed9;
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #666;
+  margin-top: 12px;
+}
+
+.btn-secondary:hover {
+  background: #eee;
+}
+
+.form-footer {
+  margin-top: 16px;
+  text-align: center;
+  color: #666;
+}
+
+.form-footer a {
+  color: #ffb6e6;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  display: inline-block;
+  margin-left: 4px;
+  border: 1px solid rgba(255, 182, 230, 0.3);
+}
+
+.form-footer a:hover {
+  background-color: rgba(255, 182, 230, 0.1);
+  text-decoration: underline;
+}
+
+.password-strength {
+  height: 4px;
+  background: #eee;
+  margin-top: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0;
+  transition: all 0.3s;
+  border-radius: 2px;
+}
+
+.strength-weak { width: 33.33%; background: #ff4d4f; }
+.strength-medium { width: 66.66%; background: #faad14; }
+.strength-strong { width: 100%; background: #52c41a; }
+
+.third-party-login {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.third-party-login .divider {
+  display: flex;
+  align-items: center;
+  color: #999;
+  font-size: 14px;
+  margin: 16px 0;
+}
+
+.third-party-login .divider::before,
+.third-party-login .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+  margin: 0 16px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.social-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.social-button:hover {
+  border-color: #ffb6e6;
+  background: rgba(255,182,230,0.1);
+}
+
+.error-message {
+  color: #ff4d4f;
+  font-size: 13px;
+  margin-top: 4px;
+  display: none;
+}
+
+.input-group.error input {
+  border-color: #ff4d4f;
+}
+
+.input-group.error .error-message {
+  display: block;
+}
+
+/* 已登录状态样式 */
+.user-info {
+  text-align: center;
+  margin-bottom: 24px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+}
+
+.user-meta {
+  color: #666;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.user-meta b {
+  color: #333;
+  font-weight: 500;
+}
+
+.user-section {
+  margin-top: 32px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.user-section h3 {
+  color: #ffb6e6;
+  font-size: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.empty-tip {
+  text-align: center;
+  color: #999;
+  padding: 32px 0;
+}
+
+/* 评论样式 */
+.comment-item {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.comment-date {
+  color: #999;
+  margin-left: auto;
+}
+
+.comment-content {
+  margin: 12px 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+.comment-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.delete-comment {
+  color: #ff4d4f;
+  cursor: pointer;
+  font-size: 13px;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.delete-comment:hover {
+  background: rgba(255, 77, 79, 0.1);
+}
+
+.like-count {
+  color: #666;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.like-count i {
+  color: #ffb6e6;
+}
+
+.comment-target {
+  color: #ffb6e6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.comment-target:hover {
+  text-decoration: underline;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+  color: #666;
+}
+
+.remember-me input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ffb6e6;
+}

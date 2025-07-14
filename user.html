@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户中心 - aespa</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/user.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="user-center-container">
+    <div class="user-title fade-in">用户中心</div>
+    
+    <!-- 未登录状态 -->
+    <div id="auth-forms" class="form-container fade-in">
+      <!-- 登录表单 -->
+      <form id="login-form" class="user-form active">
+        <h2 style="text-align: center; margin-bottom: 24px; color: #333;">登录账号</h2>
+        <div class="input-group">
+          <input type="text" id="login-username" required placeholder=" ">
+          <label>用户名</label>
+          <div class="error-message">请输入正确的用户名</div>
+        </div>
+        <div class="input-group">
+          <input type="password" id="login-password" required placeholder=" ">
+          <label>密码</label>
+          <div class="error-message">请输入正确的密码</div>
+        </div>
+        <div class="remember-me">
+          <input type="checkbox" id="remember-me">
+          <label for="remember-me">记住我</label>
+        </div>
+        <button type="submit" class="btn btn-primary">登 录</button>
+        <div class="form-footer">
+          还没有账号？<a id="to-register" class="link-button">立即注册</a>
+        </div>
+        
+        <div class="third-party-login">
+          <div class="divider">其他登录方式</div>
+          <div class="social-buttons">
+            <div class="social-button">
+              <i class="fab fa-weixin"></i>
+            </div>
+            <div class="social-button">
+              <i class="fab fa-qq"></i>
+            </div>
+            <div class="social-button">
+              <i class="fab fa-weibo"></i>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- 注册表单 -->
+      <form id="register-form" class="user-form">
+        <h2 style="text-align: center; margin-bottom: 24px; color: #333;">注册账号</h2>
+        <div class="input-group">
+          <input type="text" id="register-username" required placeholder=" ">
+          <label>用户名</label>
+          <div class="error-message">用户名需为3-20位字母数字或下划线</div>
+        </div>
+        <div class="input-group">
+          <input type="password" id="register-password" required placeholder=" ">
+          <label>密码</label>
+          <div class="error-message">密码至少6位，需包含字母和数字</div>
+          <div class="password-strength">
+            <div class="password-strength-bar"></div>
+          </div>
+        </div>
+        <div class="input-group">
+          <input type="password" id="register-confirm-password" required placeholder=" ">
+          <label>确认密码</label>
+          <div class="error-message">两次输入的密码不一致</div>
+        </div>
+        <button type="submit" class="btn btn-primary">注 册</button>
+        <div class="form-footer">
+          已有账号？<a id="to-login">立即登录</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- 已登录状态 -->
+    <div id="user-profile" style="display: none;">
+      <div class="user-info fade-in">
+        <div class="user-meta" id="user-meta"></div>
+      </div>
+      
+      <div class="button-group" style="margin: 16px 0; text-align: center;">
+        <button type="button" id="logout-btn" class="btn btn-secondary">退出登录</button>
+      </div>
+
+      <!-- 收藏和评论区 -->
+      <div class="user-section">
+        <h3><i class="fas fa-heart"></i> 我的收藏</h3>
+        <div id="fav-list" class="fav-list">
+          <div class="empty-tip">暂无收藏内容</div>
+        </div>
+      </div>
+      
+      <div class="user-section">
+        <h3><i class="fas fa-comments"></i> 我的评论</h3>
+        <div id="comment-list" class="comment-list">
+          <div class="empty-tip">暂无评论内容</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // DOM 元素
+    const authForms = document.getElementById('auth-forms');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const userProfile = document.getElementById('user-profile');
+    const toRegisterBtn = document.getElementById('to-register');
+    const toLoginBtn = document.getElementById('to-login');
+    const logoutBtn = document.getElementById('logout-btn');
+    const favList = document.getElementById('fav-list');
+    const commentList = document.getElementById('comment-list');
+    const rememberMeCheckbox = document.getElementById('remember-me');
+    
+    // 表单切换动画
+    toRegisterBtn.onclick = () => {
+      loginForm.classList.remove('active');
+      setTimeout(() => {
+        registerForm.classList.add('active');
+      }, 300);
+    };
+    
+    toLoginBtn.onclick = () => {
+      registerForm.classList.remove('active');
+      setTimeout(() => {
+        loginForm.classList.add('active');
+      }, 300);
+    };
+
+    // 密码强度检测
+    function checkPasswordStrength(password) {
+      const strengthBar = registerForm.querySelector('.password-strength-bar');
+      if (password.length < 6) {
+        strengthBar.className = 'password-strength-bar';
+        return;
+      }
+      
+      let strength = 0;
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[0-9]/.test(password)) strength++;
+      if (/[^A-Za-z0-9]/.test(password)) strength++;
+      
+      strengthBar.className = 'password-strength-bar ' + 
+        (strength <= 1 ? 'strength-weak' : 
+         strength <= 2 ? 'strength-medium' : 
+         'strength-strong');
+    }
+
+    document.getElementById('register-password').addEventListener('input', (e) => {
+      checkPasswordStrength(e.target.value);
+    });
+
+    // 表单验证函数
+    function showError(input, message) {
+      const group = input.closest('.input-group');
+      group.classList.add('error');
+      group.querySelector('.error-message').textContent = message;
+    }
+
+    function clearError(input) {
+      const group = input.closest('.input-group');
+      group.classList.remove('error');
+    }
+
+    function validateUsername(username) {
+      return /^[a-zA-Z0-9_]{3,20}$/.test(username);
+    }
+
+    function validatePassword(password) {
+      return password.length >= 6 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
+    }
+
+    // 登录表单提交
+    loginForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value.trim();
+      let hasError = false;
+
+      if (!validateUsername(username)) {
+        showError(document.getElementById('login-username'), '用户名格式不正确');
+        hasError = true;
+      } else {
+        clearError(document.getElementById('login-username'));
+      }
+
+      if (!validatePassword(password)) {
+        showError(document.getElementById('login-password'), '密码格式不正确');
+        hasError = true;
+      } else {
+        clearError(document.getElementById('login-password'));
+      }
+
+      if (hasError) return;
+
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ 
+            username, 
+            password,
+            remember: rememberMeCheckbox.checked
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          authForms.style.display = 'none';
+          userProfile.style.display = 'block';
+          updateUserProfile();
+        } else {
+          showError(document.getElementById('login-username'), data.message || '登录失败');
+        }
+      } catch (err) {
+        showError(document.getElementById('login-username'), '网络错误，请稍后重试');
+      }
+    };
+
+    // 注册表单提交
+    registerForm.onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('register-username').value.trim();
+      const password = document.getElementById('register-password').value.trim();
+      const confirmPassword = document.getElementById('register-confirm-password').value.trim();
+      let hasError = false;
+
+      if (!validateUsername(username)) {
+        showError(document.getElementById('register-username'), '用户名需为3-20位字母数字或下划线');
+        hasError = true;
+      } else {
+        clearError(document.getElementById('register-username'));
+      }
+
+      if (!validatePassword(password)) {
+        showError(document.getElementById('register-password'), '密码至少6位，需包含字母和数字');
+        hasError = true;
+      } else {
+        clearError(document.getElementById('register-password'));
+      }
+
+      if (password !== confirmPassword) {
+        showError(document.getElementById('register-confirm-password'), '两次输入的密码不一致');
+        hasError = true;
+      } else {
+        clearError(document.getElementById('register-confirm-password'));
+      }
+
+      if (hasError) return;
+
+      try {
+        const response = await fetch('/api/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ username, password })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+          // 注册成功后自动登录
+          authForms.style.display = 'none';
+          userProfile.style.display = 'block';
+          updateUserProfile();
+        } else {
+          showError(document.getElementById('register-username'), data.message || '注册失败');
+        }
+      } catch (err) {
+        showError(document.getElementById('register-username'), '网络错误，请稍后重试');
+      }
+    };
+
+    // 输入框事件监听
+    document.querySelectorAll('.input-group input').forEach(input => {
+      input.addEventListener('focus', () => clearError(input));
+      input.addEventListener('input', () => clearError(input));
+    });
+
+    function updateUserProfile() {
+      // 获取用户信息
+      fetch('/api/userinfo').then(r=>r.json()).then(res=>{
+        if(res.success && res.user) {
+          document.getElementById('user-meta').innerHTML = `用户名：<b>${res.user.username}</b> <br>注册时间：${res.user.created_at ? res.user.created_at.replace('T',' ').slice(0,16) : ''}`;
+        } else {
+          document.getElementById('user-meta').innerHTML = '';
+        }
+      });
+      // 更新收藏列表
+      updateFavorites();
+      // 更新评论列表
+      updateComments();
+    }
+
+    // 收藏列表更新函数
+    function updateFavorites() {
+      fetch('/api/favorite').then(r=>r.json()).then(res=>{
+        if(res.success) {
+          if(res.data && res.data.length) {
+            favList.innerHTML = res.data.map(item => {
+              let link = '#';
+              let text = '';
+              let icon = '';
+              
+              if(item.fav_type === 'album') {
+                icon = '<i class="fas fa-compact-disc"></i>';
+                link = `album.html?album=${encodeURIComponent(item.fav_id.replace('album_',''))}`;
+                text = item.fav_id.replace('album_','');
+              } else if(item.fav_type === 'track') {
+                icon = '<i class="fas fa-music"></i>';
+                const [_, album, ...trackParts] = item.fav_id.split('_');
+                link = `album.html?album=${encodeURIComponent(album)}`;
+                text = trackParts.join('_');
+              } else if(item.fav_type === 'member') {
+                icon = '<i class="fas fa-user"></i>';
+                link = `member.html?member=${encodeURIComponent(item.fav_id.replace('member_',''))}`;
+                text = item.fav_id.replace('member_','');
+              }
+              
+              return `
+                <div class='fav-item'>
+                  ${icon} <a href='${link}' class='fav-link'>${text}</a>
+                  <span class='fav-date'>${item.created_at ? new Date(item.created_at).toLocaleDateString('zh-CN') : ''}</span>
+                </div>`;
+            }).join('');
+          } else {
+            favList.innerHTML = '<div class="empty-tip"><i class="fas fa-heart-broken"></i> 暂无收藏内容</div>';
+          }
+        }
+      });
+    }
+
+    // 评论列表更新函数
+    function updateComments() {
+      fetch('/api/comment?target=all').then(r=>r.json()).then(res=>{
+        if(res.success) {
+          if(res.data && res.data.length) {
+            commentList.innerHTML = res.data.map(item => {
+              let link = '#';
+              let icon = '';
+              let target = '';
+              
+              if(item.target.startsWith('album_')) {
+                icon = '<i class="fas fa-compact-disc"></i>';
+                const album = item.target.replace('album_','');
+                link = `album.html?album=${encodeURIComponent(album)}`;
+                target = album;
+              } else if(item.target.startsWith('track_')) {
+                icon = '<i class="fas fa-music"></i>';
+                const [_, album, ...trackParts] = item.target.split('_');
+                link = `album.html?album=${encodeURIComponent(album)}`;
+                target = trackParts.join('_');
+              } else if(item.target.startsWith('member_')) {
+                icon = '<i class="fas fa-user"></i>';
+                const member = item.target.replace('member_','');
+                link = `member.html?member=${encodeURIComponent(member)}`;
+                target = member;
+              }
+              
+              return `
+                <div class='comment-item'>
+                  <div class='comment-header'>
+                    ${icon} <a href='${link}' class='comment-target'>${target}</a>
+                    <span class='comment-date'>${item.created_at ? new Date(item.created_at).toLocaleDateString('zh-CN') : ''}</span>
+                  </div>
+                  <div class='comment-content'>${item.content}</div>
+                </div>`;
+            }).join('');
+          } else {
+            commentList.innerHTML = '<div class="empty-tip"><i class="fas fa-comments"></i> 暂无评论内容</div>';
+          }
+        }
+      });
+    }
+    // 头像选择与预览
+
+
+    // 登出处理
+    logoutBtn.onclick = async () => {
+      try {
+        await fetch('/api/logout');
+        authForms.style.display = 'block';
+        userProfile.style.display = 'none';
+        // 清空表单
+        document.getElementById('login-username').value = '';
+        document.getElementById('login-password').value = '';
+        document.getElementById('remember-me').checked = false;
+        showToast('已安全退出登录');
+      } catch (err) {
+        console.error('登出失败:', err);
+        showToast('登出失败，请重试', 'error');
+      }
+    };
+
+    // 昵称输入限制
+    document.getElementById('nickname-input').oninput = function() {
+      this.value = this.value.slice(0, 16);
+      this.value = this.value.replace(/[^\u4e00-\u9fa5\w\- ]/g, '');
+      clearError(this);
+    };
+
+    // 优雅的消息提示
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast-message ${type}`;
+      toast.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+        ${message}
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    // 添加样式
+    const style = document.createElement('style');
+    style.textContent = `
+      .toast-message {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 4px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: opacity 0.3s;
+      }
+      
+      .toast-message i {
+        font-size: 16px;
+      }
+      
+      .toast-message.success i {
+        color: #52c41a;
+      }
+      
+      .toast-message.error i {
+        color: #ff4d4f;
+      }
+
+      .fav-link, .comment-target {
+        color: #ffb6e6;
+        text-decoration: none;
+      }
+
+      .fav-link:hover, .comment-target:hover {
+        text-decoration: underline;
+      }
+
+      .fav-date, .comment-date {
+        color: #999;
+        font-size: 0.92em;
+        margin-left: auto;
+      }
+
+      .fav-item, .comment-item {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .fav-item:last-child, .comment-item:last-child {
+        border-bottom: none;
+      }
+
+      .fav-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .comment-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+
+      .comment-content {
+        color: #666;
+        line-height: 1.5;
+        margin-left: 24px;
+      }
+
+      .empty-tip {
+        text-align: center;
+        color: #999;
+        padding: 32px 0;
+      }
+
+      .empty-tip i {
+        font-size: 24px;
+        margin-right: 8px;
+        opacity: 0.5;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // 初始化检查登录状态
+    fetch('/api/userinfo').then(r=>r.json()).then(res=>{
+      if(res.success && res.user) {
+        authForms.style.display = 'none';
+        userProfile.style.display = 'block';
+        updateUserProfile();
+      }
+    });
+  </script>
+</body>
+</html>

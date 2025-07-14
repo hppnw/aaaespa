@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aespa 首页 </title>
+    <title>aespa 首页</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/timeline.css">
+    <link rel="stylesheet" href="css/icons.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="js/main.js" defer></script>
-    <script src="js/timeline.js" defer></script>
-    <script src="js/reloader.js" defer></script>
+    <script src="./js/timeline.js" defer></script>
+    <script src="./js/reloader.js" defer></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         let mask = document.createElement('div');
@@ -28,12 +32,145 @@
     </script>
 </head>
 <body>
+    <div id="page-transition-mask"></div>
+    <!-- 用户中心按钮 -->
+    <a href="user.html" class="icon-btn large fade-in" id="user-center-btn" title="用户中心">
+      <i class="fas fa-user"></i>
+    </a>
+    <style>
+      #user-center-btn {
+        position: fixed;
+        left: 24px;
+        top: 24px;
+        z-index: 2001;
+        background: rgba(255, 182, 230, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        width: 48px;
+        height: 48px;
+      }
+      #user-center-btn:hover {
+        background: rgba(255, 182, 230, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+      }
+    </style>
     <div id="hero">
-      <img id="group-photo" src="assets/img/aespa-group.jpg" usemap="#members" />
-      <map name="members">
-        <area shape="rect" coords="100,80,280,400" href="member.html?member=karina" />
-      </map>
+      <div class="group-photo-container">
+        <img id="group-photo" src="assets/img/aespa-group.jpg" alt="aespa group photo" />
+        <div class="member-overlay">
+          <a href="member.html?member=karina" class="member-link" data-member="karina">
+            <div class="member-highlight"></div>
+            <div class="member-info">
+              <span class="member-name">KARINA</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          <a href="member.html?member=giselle" class="member-link" data-member="giselle">
+            <div class="member-highlight"></div>
+            <div class="member-info">
+              <span class="member-name">GISELLE</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          <a href="member.html?member=winter" class="member-link" data-member="winter">
+            <div class="member-highlight"></div>
+            <div class="member-info">
+              <span class="member-name">WINTER</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+          <a href="member.html?member=ningning" class="member-link" data-member="ningning">
+            <div class="member-highlight"></div>
+            <div class="member-info">
+              <span class="member-name">NINGNING</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </a>
+        </div>
+      </div>
     </div>
+
+    <style>
+      .group-photo-container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      #group-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.8);
+        transition: filter 0.3s ease;
+      }
+
+      .member-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .member-link {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        text-decoration: none;
+        color: #fff;
+        overflow: hidden;
+      }
+
+      .member-highlight {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.8));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .member-info {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+      }
+
+      .member-name {
+        font-size: 1.2em;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      .member-link:hover .member-highlight {
+        opacity: 1;
+      }
+
+      .member-link:hover .member-info {
+        transform: translateY(0);
+      }
+
+      .member-link:hover ~ #group-photo {
+        filter: brightness(0.6);
+      }
+
+      @media (max-width: 768px) {
+        .member-overlay {
+          grid-template-columns: repeat(2, 1fr);
+          grid-template-rows: repeat(2, 1fr);
+        }
+      }
+    </style>
   
     <div id="timeline-container">
       <div id="timeline">
@@ -43,10 +180,7 @@
         <button class="timeline-dot" data-album="Drama"><span class="label"><small>2023-11-10</small><span>Drama</span></span><span class="dot"></span></button>
         <button class="timeline-dot" data-album="Armageddon"><span class="label"><small>2024-05-27</small><span>Armageddon</span></span><span class="dot"></span></button>
         <button class="timeline-dot" data-album="Whiplash"><span class="label"><small>2024-10-21</small><span>Whiplash</span></span><span class="dot"></span></button>
-        <!-- <button class="timeline-dot" data-album="single1"><span class="label"><small>鍗曟洸1</small><span>棰勭暀</span></span><span class="dot"></span></button>
-        <button class="timeline-dot" data-album="single2"><span class="label"><small>鍗曟洸2</small><span>棰勭暀</span></span><span class="dot"></span></button> -->
-      </div>
-    </div>
+
     <style>
       #timeline-container {
         position: fixed;
@@ -132,14 +266,5 @@
       }
     </style>
   
-    <div id="mv-area" style="display:none; position:fixed; inset:0; z-index:10;">
-      <iframe id="mv-player" src="" frameborder="0" allowfullscreen style="width:100vw;height:100vh;"></iframe>
-      <button id="back-btn" style="position:absolute;top:24px;left:24px;z-index:12;pointer-events:auto;">杩斿洖棣栭〉</button>
-    </div>
-  
-    <section id="gallery" style="display:none; position:relative; z-index:12;">
-    </section>
-  
 </body>
 </html>
-  
