@@ -1,4 +1,4 @@
-/* Í¼±êÍ¨ÓÃÑùÊ½ */
+/* å›¾æ ‡é€šç”¨æ ·å¼ */
 .icon-btn {
   width: 36px;
   height: 36px;
@@ -62,7 +62,7 @@
   font-size: 14px;
 }
 
-/* ¶¯»­Ğ§¹û */
+/* åŠ¨ç”»æ•ˆæœ */
 .icon-btn i {
   transition: transform 0.3s ease;
 }
@@ -71,7 +71,7 @@
   transform: scale(1.1);
 }
 
-/* ÌØÊâÍ¼±êÑùÊ½ */
+/* ç‰¹æ®Šå›¾æ ‡æ ·å¼ */
 .icon-btn.like i {
   color: #ff6b6b;
 }
@@ -84,7 +84,7 @@
   color: #63e6be;
 }
 
-/* µ¼º½°´Å¥ÑùÊ½ */
+/* å¯¼èˆªæŒ‰é’®æ ·å¼ */
 .nav-btn {
   width: 40px;
   height: 40px;
@@ -119,7 +119,7 @@
   color: #fff;
 }
 
-/* ¼ÓÔØ¶¯»­ */
+/* åŠ è½½åŠ¨ç”» */
 .loading {
   display: inline-block;
   width: 24px;
@@ -136,14 +136,14 @@
   }
 }
 
-/* Í¨ÓÃÍ¼±ê×éÑùÊ½ */
+/* é€šç”¨å›¾æ ‡ç»„æ ·å¼ */
 .icon-group {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* ²Ëµ¥Í¼±êÑùÊ½ */
+/* èœå•å›¾æ ‡æ ·å¼ */
 .menu-icon {
   width: 32px;
   height: 32px;
@@ -159,7 +159,7 @@
   color: #ffb6e6;
 }
 
-/* ×´Ì¬Í¼±êÑùÊ½ */
+/* çŠ¶æ€å›¾æ ‡æ ·å¼ */
 .status-icon {
   display: inline-flex;
   align-items: center;
@@ -184,7 +184,7 @@
   color: #ff4d4f;
 }
 
-/* Í¼±ê±êÇ©ÑùÊ½ */
+/* å›¾æ ‡æ ‡ç­¾æ ·å¼ */
 .icon-tag {
   display: inline-flex;
   align-items: center;
@@ -200,7 +200,7 @@
   font-size: 14px;
 }
 
-/* Í·ÏñÍ¼±êÑùÊ½ */
+/* å¤´åƒå›¾æ ‡æ ·å¼ */
 .avatar-icon {
   width: 40px;
   height: 40px;
@@ -220,7 +220,7 @@
   object-fit: cover;
 }
 
-/* ½»»¥Í¼±êÑùÊ½ */
+/* äº¤äº’å›¾æ ‡æ ·å¼ */
 .interactive-icon {
   cursor: pointer;
   transition: all 0.3s ease;

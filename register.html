@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ÓÃ»§×¢²á</title>
+  <title>ç”¨æˆ·æ³¨å†Œ</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
     body { background: #181828; color: #fff; font-family: 'Segoe UI',sans-serif; }
@@ -21,27 +21,27 @@
 </head>
 <body>
   <div class="register-container">
-    <h2>ÓÃ»§×¢²á</h2>
+    <h2>ç”¨æˆ·æ³¨å†Œ</h2>
     <div class="error-msg" id="error-msg"></div>
     <form id="register-form" autocomplete="off">
       <div class="form-group">
-        <label for="username">ÓÃ»§Ãû</label>
+        <label for="username">ç”¨æˆ·å</label>
         <input type="text" id="username" name="username" maxlength="20" required>
       </div>
       <div class="form-group">
-        <label for="password">ÃÜÂë</label>
+        <label for="password">å¯†ç </label>
         <input type="password" id="password" name="password" maxlength="32" required>
       </div>
       <div class="form-group">
-        <label for="password2">È·ÈÏÃÜÂë</label>
+        <label for="password2">ç¡®è®¤å¯†ç </label>
         <input type="password" id="password2" name="password2" maxlength="32" required>
       </div>
-      <button type="submit" class="register-btn">×¢²á</button>
+      <button type="submit" class="register-btn">æ³¨å†Œ</button>
     </form>
-    <a class="switch-link" href="#" id="to-login">ÒÑÓĞÕËºÅ£¿È¥µÇÂ¼</a>
+    <a class="switch-link" href="#" id="to-login">å·²æœ‰è´¦å·ï¼Ÿå»ç™»å½•</a>
   </div>
   <script>
-    // ×¢²á±íµ¥Ğ£ÑéºÍÌá½»
+    // æ³¨å†Œè¡¨å•æ ¡éªŒå’Œæäº¤
     document.getElementById('register-form').onsubmit = async function(e) {
       e.preventDefault();
       const username = document.getElementById('username').value.trim();
@@ -50,18 +50,18 @@
       const errorMsg = document.getElementById('error-msg');
       errorMsg.textContent = '';
       if (!/^[a-zA-Z0-9_]{3,20}$/.test(username)) {
-        errorMsg.textContent = 'ÓÃ»§ÃûĞèÎª3-20Î»×ÖÄ¸Êı×Ö»òÏÂ»®Ïß'; return;
+        errorMsg.textContent = 'ç”¨æˆ·åéœ€ä¸º3-20ä½å­—æ¯æ•°å­—æˆ–ä¸‹åˆ’çº¿'; return;
       }
       if (password.length < 6) {
-        errorMsg.textContent = 'ÃÜÂëÖÁÉÙ6Î»'; return;
+        errorMsg.textContent = 'å¯†ç è‡³å°‘6ä½'; return;
       }
       if (!/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
-        errorMsg.textContent = 'ÃÜÂëĞè°üº¬×ÖÄ¸ºÍÊı×Ö'; return;
+        errorMsg.textContent = 'å¯†ç éœ€åŒ…å«å­—æ¯å’Œæ•°å­—'; return;
       }
       if (password !== password2) {
-        errorMsg.textContent = 'Á½´ÎÊäÈëµÄÃÜÂë²»Ò»ÖÂ'; return;
+        errorMsg.textContent = 'ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸ä¸€è‡´'; return;
       }
-      // Ìá½»
+      // æäº¤
       const res = await fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -70,14 +70,14 @@
       const data = await res.json();
       if (data.success) {
         errorMsg.style.color = '#2ecc71';
-        errorMsg.textContent = '×¢²á³É¹¦£¬ÕıÔÚÌø×ª...';
+        errorMsg.textContent = 'æ³¨å†ŒæˆåŠŸï¼Œæ­£åœ¨è·³è½¬...';
         setTimeout(()=>{ window.location.href = 'index.html'; }, 800);
       } else {
         errorMsg.style.color = '#ff6b81';
-        errorMsg.textContent = data.message || '×¢²áÊ§°Ü';
+        errorMsg.textContent = data.message || 'æ³¨å†Œå¤±è´¥';
       }
     };
-    // Ìø×ªµÇÂ¼Ò³
+    // è·³è½¬ç™»å½•é¡µ
     document.getElementById('to-login').onclick = function(e) {
       e.preventDefault();
       window.location.href = 'login.html';

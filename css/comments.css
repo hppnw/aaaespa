@@ -1,4 +1,4 @@
-/* 评论相关样式 */
+/* 璇勮鐩稿叧鏍峰紡 */
 .comment-modal {
   display: none;
   position: fixed;
@@ -213,7 +213,7 @@
   font-size: 0.9em;
 }
 
-/* 评论按钮样式 */
+/* 璇勮鎸夐挳鏍峰紡 */
 #comment-btn {
   position: fixed;
   right: 32px;
