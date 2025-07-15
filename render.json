@@ -1,0 +1,20 @@
+{
+  "build": {
+    "env": {
+      "PYTHON": "python3"
+    },
+    "steps": [
+      {
+        "name": "Install dependencies",
+        "command": "npm install"
+      },
+      {
+        "name": "Rebuild better-sqlite3",
+        "command": "npm rebuild better-sqlite3"
+      }
+    ]
+  },
+  "start": {
+    "command": "npm start"
+  }
+}
