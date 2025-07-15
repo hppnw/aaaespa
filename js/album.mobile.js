@@ -1,10 +1,10 @@
-// ÒÆ¶¯¶Ë½»»¥ÔöÇ¿
+// ç§»åŠ¨ç«¯äº¤äº’å¢å¼º
 document.addEventListener('DOMContentLoaded', () => {
   const playerControls = document.querySelector('.player-controls');
   const progressBar = document.querySelector('.progress-bar');
   const trackList = document.querySelector('.track-list');
   
-  // ½ø¶ÈÌõ´¥Ãş´¦Àí
+  // è¿›åº¦æ¡è§¦æ‘¸å¤„ç†
   if (progressBar) {
     let isDragging = false;
     let startX, startLeft;
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isDragging) return;
       isDragging = false;
       
-      // ´¥·¢½ø¶È¸üĞÂÊÂ¼ş
+      // è§¦å‘è¿›åº¦æ›´æ–°äº‹ä»¶
       const event = new CustomEvent('progressChanged', {
         detail: { progress: parseInt(progressBar.style.width) }
       });
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ×¨¼­·âÃæÊÖÊÆÖ§³Ö
+  // ä¸“è¾‘å°é¢æ‰‹åŠ¿æ”¯æŒ
   const cdCover = document.querySelector('#cd-cover');
   if (cdCover) {
     let startTime;
@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     cdCover.addEventListener('touchend', (e) => {
       if (startTouches && startTouches.length === 2) {
         const duration = Date.now() - startTime;
-        if (duration < 300) { // ¿ìËÙË«Ö¸´¥Ãş
-          // ´¥·¢·âÃæĞı×ª¶¯»­
+        if (duration < 300) { // å¿«é€ŸåŒæŒ‡è§¦æ‘¸
+          // è§¦å‘å°é¢æ—‹è½¬åŠ¨ç”»
           cdCover.classList.toggle('rotating');
         }
       }
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ÓÅ»¯¹ö¶¯ÌåÑé
+  // ä¼˜åŒ–æ»šåŠ¨ä½“éªŒ
   if (trackList) {
     let touchStartY;
     
@@ -76,17 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const touchY = e.touches[0].clientY;
       const scrollTop = trackList.scrollTop;
       
-      // µ½´ï¶¥²¿»òµ×²¿Ê±×èÖ¹Ä¬ÈÏ¹ö¶¯
+      // åˆ°è¾¾é¡¶éƒ¨æˆ–åº•éƒ¨æ—¶é˜»æ­¢é»˜è®¤æ»šåŠ¨
       if (
-        (scrollTop <= 0 && touchY > touchStartY) || // ¶¥²¿ÏÂÀ­
-        (scrollTop >= trackList.scrollHeight - trackList.offsetHeight && touchY < touchStartY) // µ×²¿ÉÏÀ­
+        (scrollTop <= 0 && touchY > touchStartY) || // é¡¶éƒ¨ä¸‹æ‹‰
+        (scrollTop >= trackList.scrollHeight - trackList.offsetHeight && touchY < touchStartY) // åº•éƒ¨ä¸Šæ‹‰
       ) {
         e.preventDefault();
       }
     });
   }
 
-  // Ë«»÷²¥·Å/ÔİÍ£Ö§³Ö
+  // åŒå‡»æ’­æ”¾/æš‚åœæ”¯æŒ
   const trackItems = document.querySelectorAll('.track-item');
   trackItems.forEach(item => {
     let lastTap = 0;
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const tapLength = currentTime - lastTap;
       
       if (tapLength < 500 && tapLength > 0) {
-        // Ë«»÷²¥·Å/ÔİÍ£
+        // åŒå‡»æ’­æ”¾/æš‚åœ
         const playButton = item.querySelector('.play-button');
         if (playButton) {
           playButton.click();
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ²¥·ÅÆ÷¿Ø¼şÎ»ÖÃ×ÔÊÊÓ¦
+  // æ’­æ”¾å™¨æ§ä»¶ä½ç½®è‡ªé€‚åº”
   function adjustPlayerControlsPosition() {
     const safeAreaBottom = getComputedStyle(document.documentElement).getPropertyValue('--sat-bottom') || '0px';
     if (playerControls) {
@@ -114,11 +114,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ¼àÌıÆÁÄ»Ğı×ª
+  // ç›‘å¬å±å¹•æ—‹è½¬
   window.addEventListener('orientationchange', adjustPlayerControlsPosition);
   adjustPlayerControlsPosition();
 
-  // ÎªiOSÉè±¸Ìí¼Ó×¨ÃÅµÄÀà
+  // ä¸ºiOSè®¾å¤‡æ·»åŠ ä¸“é—¨çš„ç±»
   if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
     document.body.classList.add('ios-device');
   }

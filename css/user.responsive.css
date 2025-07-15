@@ -1,4 +1,4 @@
-/* ÒÆ¶¯¶ËÑùÊ½ÓÅ»¯ */
+/* ç§»åŠ¨ç«¯æ ·å¼ä¼˜åŒ– */
 @media screen and (max-width: 768px) {
   .user-center-container {
     padding: 16px;
@@ -28,7 +28,7 @@
 
   .input-group input {
     width: 100%;
-    font-size: 16px; /* ±ÜÃâiOS×Ô¶¯Ëõ·Å */
+    font-size: 16px; /* é¿å…iOSè‡ªåŠ¨ç¼©æ”¾ */
     padding: 12px;
   }
 
@@ -56,7 +56,7 @@
     text-align: center;
   }
 
-  /* ÓÃ»§ĞÅÏ¢ÇøÓò */
+  /* ç”¨æˆ·ä¿¡æ¯åŒºåŸŸ */
   .user-info {
     padding: 16px;
   }
@@ -66,7 +66,7 @@
     line-height: 1.5;
   }
 
-  /* ÊÕ²ØºÍÆÀÂÛÇøÓò */
+  /* æ”¶è—å’Œè¯„è®ºåŒºåŸŸ */
   .user-section {
     margin: 16px 0;
     padding: 16px;
@@ -90,7 +90,7 @@
     margin-left: 16px;
   }
 
-  /* ToastÏûÏ¢ÓÅ»¯ */
+  /* Toastæ¶ˆæ¯ä¼˜åŒ– */
   .toast-message {
     font-size: 14px;
     padding: 10px 20px;
@@ -98,7 +98,7 @@
   }
 }
 
-/* iOSÊäÈë¿òÓÅ»¯ */
+/* iOSè¾“å…¥æ¡†ä¼˜åŒ– */
 @supports (-webkit-touch-callout: none) {
   input {
     font-size: 16px !important;

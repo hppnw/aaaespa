@@ -1,6 +1,6 @@
-// ÒÆ¶¯¶ËÊÊÅä½Å±¾
+// ç§»åŠ¨ç«¯é€‚é…è„šæœ¬
 document.addEventListener('DOMContentLoaded', function() {
-    // Ìí¼ÓÒÆ¶¯¶Ë²Ëµ¥°´Å¥
+    // æ·»åŠ ç§»åŠ¨ç«¯èœå•æŒ‰é’®
     const nav = document.querySelector('nav');
     if (nav) {
         const menuBtn = document.createElement('button');
@@ -8,13 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
         menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
         nav.appendChild(menuBtn);
 
-        // ´´½¨ÒÆ¶¯¶Ëµ¼º½²Ëµ¥
+        // åˆ›å»ºç§»åŠ¨ç«¯å¯¼èˆªèœå•
         const mobileNav = document.createElement('div');
         mobileNav.className = 'mobile-nav';
         mobileNav.innerHTML = nav.querySelector('.nav-links').innerHTML;
         document.body.appendChild(mobileNav);
 
-        // ²Ëµ¥¿ª¹Ø
+        // èœå•å¼€å…³
         menuBtn.addEventListener('click', function() {
             mobileNav.classList.toggle('active');
             menuBtn.innerHTML = mobileNav.classList.contains('active') ? 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 '<i class="fas fa-bars"></i>';
         });
 
-        // µã»÷²Ëµ¥Ïîºó¹Ø±Õ²Ëµ¥
+        // ç‚¹å‡»èœå•é¡¹åå…³é—­èœå•
         mobileNav.addEventListener('click', function(e) {
             if (e.target.tagName === 'A') {
                 mobileNav.classList.remove('active');
@@ -31,25 +31,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ÓÅ»¯´¥ÃşÊÂ¼ş
+    // ä¼˜åŒ–è§¦æ‘¸äº‹ä»¶
     document.querySelectorAll('a, button').forEach(el => {
         el.classList.add('clickable');
     });
 
-    // ¼ì²âÉè±¸ÀàĞÍ
+    // æ£€æµ‹è®¾å¤‡ç±»å‹
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
         document.body.classList.add('mobile-device');
     }
 
-    // ´¦ÀíiOS»Øµ¯Ğ§¹û
+    // å¤„ç†iOSå›å¼¹æ•ˆæœ
     document.body.addEventListener('touchmove', function(e) {
         if (e.target.classList.contains('scroll-container')) {
             e.stopPropagation();
         }
     }, { passive: false });
 
-    // Ë«»÷Ëõ·Å½ûÓÃ
+    // åŒå‡»ç¼©æ”¾ç¦ç”¨
     let lastTouchEnd = 0;
     document.addEventListener('touchend', function(e) {
         const now = Date.now();

@@ -1,6 +1,6 @@
-/* Ê×Ò³ÒÆ¶¯¶ËÏìÓ¦Ê½ÑùÊ½ */
+/* é¦–é¡µç§»åŠ¨ç«¯å“åº”å¼æ ·å¼ */
 @media screen and (max-width: 768px) {
-  /* È«¾Ö²¼¾Ö */
+  /* å…¨å±€å¸ƒå±€ */
   body {
     font-size: 14px;
   }
@@ -9,7 +9,7 @@
     padding: 16px;
   }
 
-  /* ¶¥²¿±êÌâÇøÓò */
+  /* é¡¶éƒ¨æ ‡é¢˜åŒºåŸŸ */
   .hero-section {
     height: 100vh;
     padding: 60px 16px;
@@ -23,7 +23,7 @@
     font-size: 18px;
   }
 
-  /* Ê±¼äÏßÓÅ»¯ */
+  /* æ—¶é—´çº¿ä¼˜åŒ– */
   .timeline {
     padding: 20px 10px;
   }
@@ -60,7 +60,7 @@
     line-height: 1.4;
   }
 
-  /* µ¼º½²Ëµ¥ */
+  /* å¯¼èˆªèœå• */
   .nav-menu {
     position: fixed;
     bottom: env(safe-area-inset-bottom, 0);
@@ -91,7 +91,7 @@
     font-size: 12px;
   }
 
-  /* ³ÉÔ±Õ¹Ê¾Çø */
+  /* æˆå‘˜å±•ç¤ºåŒº */
   .members-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
@@ -114,7 +114,7 @@
     font-size: 12px;
   }
 
-  /* Ïà²áÕ¹Ê¾ */
+  /* ç›¸å†Œå±•ç¤º */
   .album-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 16px;
@@ -137,18 +137,18 @@
     font-size: 12px;
   }
 
-  /* ½»»¥°´Å¥ */
+  /* äº¤äº’æŒ‰é’® */
   .action-button {
     padding: 12px 24px;
     font-size: 14px;
   }
 
-  /* Ò³Ãæ×ª³¡¶¯»­ */
+  /* é¡µé¢è½¬åœºåŠ¨ç”» */
   .page-transition {
     transition: transform 0.3s ease-out;
   }
 
-  /* iOSÓÅ»¯ */
+  /* iOSä¼˜åŒ– */
   @supports (-webkit-touch-callout: none) {
     .nav-menu {
       padding-bottom: calc(12px + env(safe-area-inset-bottom));
@@ -158,14 +158,14 @@
       padding-top: calc(60px + env(safe-area-inset-top));
     }
 
-    /* ÌáÉı¹ö¶¯ĞÔÄÜ */
+    /* æå‡æ»šåŠ¨æ€§èƒ½ */
     .timeline-wrapper {
       -webkit-overflow-scrolling: touch;
     }
   }
 }
 
-/* Ğ¡ÆÁÄ»ÊÖ»úÓÅ»¯ */
+/* å°å±å¹•æ‰‹æœºä¼˜åŒ– */
 @media screen and (max-width: 320px) {
   .hero-title {
     font-size: 28px;

@@ -1,9 +1,9 @@
-// ÒÆ¶¯¶Ë½»»¥ÔöÇ¿
+// ç§»åŠ¨ç«¯äº¤äº’å¢å¼º
 document.addEventListener('DOMContentLoaded', () => {
   const gallery = document.getElementById('photo-gallery');
   const memberLeft = document.getElementById('member-left');
   
-  // ´¥Ãş»¬¶¯Ö§³Ö
+  // è§¦æ‘¸æ»‘åŠ¨æ”¯æŒ
   let touchStartX = 0;
   let touchStartY = 0;
   let currentTranslateX = 0;
@@ -22,13 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const deltaX = e.touches[0].clientX - touchStartX;
     const deltaY = e.touches[0].clientY - touchStartY;
 
-    // Èç¹û´¹Ö±»¬¶¯´óÓÚË®Æ½»¬¶¯£¬²»´¦Àí
+    // å¦‚æœå‚ç›´æ»‘åŠ¨å¤§äºæ°´å¹³æ»‘åŠ¨ï¼Œä¸å¤„ç†
     if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
     e.preventDefault();
     const newTranslateX = currentTranslateX + deltaX;
     
-    // ÏŞÖÆ»¬¶¯·¶Î§
+    // é™åˆ¶æ»‘åŠ¨èŒƒå›´
     if (newTranslateX > 0 || newTranslateX < -(gallery.scrollWidth - gallery.offsetWidth)) return;
     
     gallery.style.transform = `translateX(${newTranslateX}px)`;
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.style.transition = 'transform 0.3s ease-out';
   });
 
-  // Í¼Æ¬È«ÆÁÔ¤ÀÀÓÅ»¯
+  // å›¾ç‰‡å…¨å±é¢„è§ˆä¼˜åŒ–
   const images = document.querySelectorAll('.gallery-item img');
   const fullscreenOverlay = document.createElement('div');
   fullscreenOverlay.className = 'fullscreen-overlay';
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       
       const closeBtn = document.createElement('button');
       closeBtn.className = 'close-fullscreen';
-      closeBtn.innerHTML = '¡Á';
+      closeBtn.innerHTML = 'Ã—';
       
       fullscreenOverlay.innerHTML = '';
       fullscreenOverlay.appendChild(fullImg);
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
       fullscreenOverlay.style.display = 'flex';
       document.body.style.overflow = 'hidden';
 
-      // Ö§³ÖË«Ö¸Ëõ·Å
+      // æ”¯æŒåŒæŒ‡ç¼©æ”¾
       let currentScale = 1;
       let initialDistance = 0;
 
@@ -96,14 +96,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ¼ÆËãÁ½¸ö´¥ÃşµãÖ®¼äµÄ¾àÀë
+  // è®¡ç®—ä¸¤ä¸ªè§¦æ‘¸ç‚¹ä¹‹é—´çš„è·ç¦»
   function getDistance(touch1, touch2) {
     const dx = touch1.clientX - touch2.clientX;
     const dy = touch1.clientY - touch2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  // ³ÉÔ±ĞÅÏ¢ÇøÓòÊÓ²îĞ§¹û
+  // æˆå‘˜ä¿¡æ¯åŒºåŸŸè§†å·®æ•ˆæœ
   if (memberLeft) {
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
-  // Ë«»÷·Å´óÍ¼Æ¬Ö§³Ö
+  // åŒå‡»æ”¾å¤§å›¾ç‰‡æ”¯æŒ
   let lastTap = 0;
   images.forEach(img => {
     img.addEventListener('touchend', (e) => {
@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const tapLength = currentTime - lastTap;
       
       if (tapLength < 500 && tapLength > 0) {
-        img.click(); // ´¥·¢È«ÆÁÔ¤ÀÀ
+        img.click(); // è§¦å‘å…¨å±é¢„è§ˆ
       }
       lastTap = currentTime;
     });

@@ -1,14 +1,14 @@
-// ÓÃ»§ÈÏÖ¤×´Ì¬¹ÜÀí
+// ç”¨æˆ·è®¤è¯çŠ¶æ€ç®¡ç†
 class AuthManager {
     constructor() {
         this.user = null;
         this.init();
     }
 
-    // ³õÊ¼»¯£º¼ì²éµÇÂ¼×´Ì¬
+    // åˆå§‹åŒ–ï¼šæ£€æŸ¥ç™»å½•çŠ¶æ€
     async init() {
         try {
-            // ÑéÖ¤·şÎñÆ÷¶Ësession
+            // éªŒè¯æœåŠ¡å™¨ç«¯session
             const response = await fetch('/api/userinfo', {
                 credentials: 'include'
             });
@@ -16,22 +16,22 @@ class AuthManager {
 
             if (res.success && res.user) {
                 this.user = res.user;
-                // ¸üĞÂ±¾µØ´æ´¢
+                // æ›´æ–°æœ¬åœ°å­˜å‚¨
                 sessionStorage.setItem('userInfo', JSON.stringify(res.user));
-                if (localUser) { // Èç¹ûÖ®Ç°Ê¹ÓÃÁË"¼Ç×¡ÎÒ"
+                if (localUser) { // å¦‚æœä¹‹å‰ä½¿ç”¨äº†"è®°ä½æˆ‘"
                     localStorage.setItem('userInfo', JSON.stringify(res.user));
                 }
                 this.updateUI(true);
             } else {
-                // ·şÎñÆ÷¶ËsessionÒÑÊ§Ğ§£¬Çå³ı±¾µØ´æ´¢
+                // æœåŠ¡å™¨ç«¯sessionå·²å¤±æ•ˆï¼Œæ¸…é™¤æœ¬åœ°å­˜å‚¨
                 this.clearAuth();
             }
         } catch (err) {
-            console.error('ÑéÖ¤µÇÂ¼×´Ì¬Ê§°Ü:', err);
+            console.error('éªŒè¯ç™»å½•çŠ¶æ€å¤±è´¥:', err);
         }
     }
 
-    // µÇÂ¼
+    // ç™»å½•
     async login(username, password, remember = false) {
         try {
             const response = await fetch('/api/login', {
@@ -52,15 +52,15 @@ class AuthManager {
                 this.updateUI(true);
                 return { success: true };
             } else {
-                return { success: false, message: data.message || 'µÇÂ¼Ê§°Ü' };
+                return { success: false, message: data.message || 'ç™»å½•å¤±è´¥' };
             }
         } catch (err) {
-            console.error('µÇÂ¼Ê§°Ü:', err);
-            return { success: false, message: 'ÍøÂç´íÎó£¬ÇëÉÔºóÖØÊÔ' };
+            console.error('ç™»å½•å¤±è´¥:', err);
+            return { success: false, message: 'ç½‘ç»œé”™è¯¯ï¼Œè¯·ç¨åé‡è¯•' };
         }
     }
 
-    // ×¢Ïú
+    // æ³¨é”€
     async logout() {
         try {
             const response = await fetch('/api/logout', {
@@ -72,12 +72,12 @@ class AuthManager {
             this.clearAuth();
             return true;
         } catch (err) {
-            console.error('×¢ÏúÊ§°Ü:', err);
+            console.error('æ³¨é”€å¤±è´¥:', err);
             return false;
         }
     }
 
-    // Çå³ıÈÏÖ¤×´Ì¬
+    // æ¸…é™¤è®¤è¯çŠ¶æ€
     clearAuth() {
         this.user = null;
         sessionStorage.removeItem('userInfo');
@@ -85,19 +85,19 @@ class AuthManager {
         this.updateUI(false);
     }
 
-    // »ñÈ¡µ±Ç°ÓÃ»§ĞÅÏ¢
+    // è·å–å½“å‰ç”¨æˆ·ä¿¡æ¯
     getUser() {
         return this.user;
     }
 
-    // ¼ì²éÊÇ·ñÒÑµÇÂ¼
+    // æ£€æŸ¥æ˜¯å¦å·²ç™»å½•
     isLoggedIn() {
         return !!this.user;
     }
 
-    // ¸üĞÂÒ³ÃæUI
+    // æ›´æ–°é¡µé¢UI
     updateUI(isLoggedIn) {
-        // »ñÈ¡ËùÓĞĞèÒª¸ù¾İµÇÂ¼×´Ì¬ÏÔÊ¾/Òş²ØµÄÔªËØ
+        // è·å–æ‰€æœ‰éœ€è¦æ ¹æ®ç™»å½•çŠ¶æ€æ˜¾ç¤º/éšè—çš„å…ƒç´ 
         const authElements = document.querySelectorAll('[data-auth]');
         authElements.forEach(el => {
             const authType = el.dataset.auth;
@@ -108,12 +108,12 @@ class AuthManager {
             }
         });
 
-        // ´¥·¢µÇÂ¼×´Ì¬¸Ä±äÊÂ¼ş
+        // è§¦å‘ç™»å½•çŠ¶æ€æ”¹å˜äº‹ä»¶
         window.dispatchEvent(new CustomEvent('authStateChanged', {
             detail: { isLoggedIn, user: this.user }
         }));
     }
 }
 
-// ´´½¨È«¾Öµ¥Àı
+// åˆ›å»ºå…¨å±€å•ä¾‹
 window.authManager = new AuthManager();

@@ -1,4 +1,4 @@
-/* ÒÆ¶¯¶ËÏìÓ¦Ê½ÑùÊ½ */
+/* ç§»åŠ¨ç«¯å“åº”å¼æ ·å¼ */
 @media screen and (max-width: 768px) {
   .main-container {
     flex-direction: column;
@@ -53,7 +53,7 @@
     text-align: center;
   }
 
-  /* ²¥·ÅÆ÷¿ØÖÆÇøÓò */
+  /* æ’­æ”¾å™¨æ§åˆ¶åŒºåŸŸ */
   .player-controls {
     position: fixed;
     bottom: 0;
@@ -87,9 +87,9 @@
     margin-top: 4px;
   }
 
-  /* ¸èÇúÁĞ±íÓÅ»¯ */
+  /* æ­Œæ›²åˆ—è¡¨ä¼˜åŒ– */
   .track-list {
-    margin-bottom: 80px; /* Îª¹Ì¶¨²¥·ÅÆ÷Áô³ö¿Õ¼ä */
+    margin-bottom: 80px; /* ä¸ºå›ºå®šæ’­æ”¾å™¨ç•™å‡ºç©ºé—´ */
   }
 
   .track-item {
@@ -111,7 +111,7 @@
     font-size: 12px;
   }
 
-  /* Ïà²á»­ÀÈÓÅ»¯ */
+  /* ç›¸å†Œç”»å»Šä¼˜åŒ– */
   .gallery-section {
     margin: 20px 0;
     padding: 0 16px;
@@ -126,7 +126,7 @@
     aspect-ratio: 1;
   }
 
-  /* ÆÀÂÛÇøÓÅ»¯ */
+  /* è¯„è®ºåŒºä¼˜åŒ– */
   .comments-section {
     margin: 20px 0;
     padding: 0 16px;
@@ -146,7 +146,7 @@
     font-size: 12px;
   }
 
-  /* È«ÆÁÍ¼Æ¬²é¿´ÓÅ»¯ */
+  /* å…¨å±å›¾ç‰‡æŸ¥çœ‹ä¼˜åŒ– */
   .fullscreen-overlay {
     padding: 16px;
   }
@@ -162,7 +162,7 @@
     padding: 8px;
   }
 
-  /* ½»»¥°´Å¥ÓÅ»¯ */
+  /* äº¤äº’æŒ‰é’®ä¼˜åŒ– */
   .action-buttons {
     gap: 12px;
   }
@@ -172,23 +172,23 @@
     font-size: 14px;
   }
 
-  /* iOSÉè±¸ÌØ¶¨ÓÅ»¯ */
+  /* iOSè®¾å¤‡ç‰¹å®šä¼˜åŒ– */
   @supports (-webkit-touch-callout: none) {
     .player-controls {
       padding-bottom: calc(12px + env(safe-area-inset-bottom));
     }
     
     input[type="range"] {
-      height: 24px; /* Ôö´ó´¥¿ØÇøÓò */
+      height: 24px; /* å¢å¤§è§¦æ§åŒºåŸŸ */
     }
     
     .track-item {
-      padding: 16px 12px; /* Ôö´óµã»÷ÇøÓò */
+      padding: 16px 12px; /* å¢å¤§ç‚¹å‡»åŒºåŸŸ */
     }
   }
 }
 
-/* ÊÊÅäĞ¡ÆÁÊÖ»ú */
+/* é€‚é…å°å±æ‰‹æœº */
 @media screen and (max-width: 320px) {
   .cd-container {
     width: 160px;

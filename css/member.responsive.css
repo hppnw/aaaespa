@@ -1,4 +1,4 @@
-/* ÒÆ¶¯¶ËÏìÓ¦Ê½ÑùÊ½ */
+/* ç§»åŠ¨ç«¯å“åº”å¼æ ·å¼ */
 @media screen and (max-width: 768px) {
   #member-container {
     flex-direction: column;
@@ -56,7 +56,7 @@
   }
 
   .gallery-nav {
-    display: none; /* ÔÚÒÆ¶¯¶ËÊ¹ÓÃ»¬¶¯¶ø²»ÊÇ°´Å¥µ¼º½ */
+    display: none; /* åœ¨ç§»åŠ¨ç«¯ä½¿ç”¨æ»‘åŠ¨è€Œä¸æ˜¯æŒ‰é’®å¯¼èˆª */
   }
 
   .gallery-item {
@@ -70,7 +70,7 @@
     object-fit: cover;
   }
 
-  /* È«ÆÁÔ¤ÀÀÓÅ»¯ */
+  /* å…¨å±é¢„è§ˆä¼˜åŒ– */
   .fullscreen-overlay {
     padding: 0;
   }
@@ -94,7 +94,7 @@
     justify-content: center;
   }
 
-  /* ´¥Ãş»¬¶¯Ö§³Ö */
+  /* è§¦æ‘¸æ»‘åŠ¨æ”¯æŒ */
   .photo-gallery {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -109,10 +109,10 @@
     width: calc(50% - 8px);
   }
 
-  /* iOSÉè±¸ÓÅ»¯ */
+  /* iOSè®¾å¤‡ä¼˜åŒ– */
   @supports (-webkit-touch-callout: none) {
     #member-container {
-      /* ÊÊÅä iPhone Áõº£ÆÁ */
+      /* é€‚é… iPhone åˆ˜æµ·å± */
       padding-top: env(safe-area-inset-top);
       padding-bottom: env(safe-area-inset-bottom);
     }

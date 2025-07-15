@@ -1,6 +1,6 @@
-// Ê×Ò³ÒÆ¶¯¶Ë½»»¥ÔöÇ¿
+// é¦–é¡µç§»åŠ¨ç«¯äº¤äº’å¢žå¼º
 document.addEventListener('DOMContentLoaded', () => {
-  // Æ½»¬¹ö¶¯Ö§³Ö
+  // å¹³æ»‘æ»šåŠ¨æ”¯æŒ
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Ê±¼äÏß´¥Ãþ½»»¥
+  // æ—¶é—´çº¿è§¦æ‘¸äº¤äº’
   const timeline = document.querySelector('.timeline-wrapper');
   if (timeline) {
     let startX, startY;
@@ -32,12 +32,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (!isScrolling) {
-        e.preventDefault(); // ×èÖ¹Ë®Æ½»¬¶¯Ê±µÄÒ³Ãæ¹ö¶¯
+        e.preventDefault(); // é˜»æ­¢æ°´å¹³æ»‘åŠ¨æ—¶çš„é¡µé¢æ»šåŠ¨
       }
     }, { passive: false });
   }
 
-  // µ¼º½²Ëµ¥½»»¥
+  // å¯¼èˆªèœå•äº¤äº’
   const navItems = document.querySelectorAll('.nav-item');
   navItems.forEach(item => {
     item.addEventListener('touchstart', () => {
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ÊÓ²î¹ö¶¯Ð§¹û
+  // è§†å·®æ»šåŠ¨æ•ˆæžœ
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (!ticking) {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, { passive: true });
 
-  // Ë«»÷·µ»Ø¶¥²¿
+  // åŒå‡»è¿”å›žé¡¶éƒ¨
   let lastTap = 0;
   document.addEventListener('touchend', (e) => {
     const currentTime = new Date().getTime();
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lastTap = currentTime;
   });
 
-  // ÏÂÀ­Ë¢ÐÂÖ§³Ö
+  // ä¸‹æ‹‰åˆ·æ–°æ”¯æŒ
   let touchStart = 0;
   let pullStarted = false;
   const threshold = 100;
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Ò³Ãæ×ª³¡¶¯»­ÓÅ»¯
+  // é¡µé¢è½¬åœºåŠ¨ç”»ä¼˜åŒ–
   const pageTransitionMask = document.getElementById('page-transition-mask');
   if (pageTransitionMask) {
     document.querySelectorAll('a').forEach(link => {
