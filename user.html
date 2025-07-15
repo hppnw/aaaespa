@@ -114,71 +114,71 @@
     authForms.style.display = 'none';
     userProfile.style.display = 'none';
 
-    // 登录状态检查
-    async function checkLoginState() {
-      try {
-        // 确保 auth.js 已加载完成
-        if (!window.authManager) {
-          console.error('authManager未加载');
-          return;
-        }
+    // // 登录状态检查
+    // async function checkLoginState() {
+    //   try {
+    //     // 确保 auth.js 已加载完成
+    //     if (!window.authManager) {
+    //       console.error('authManager未加载');
+    //       return;
+    //     }
 
-        // 获取后端状态
-        const response = await fetch('/api/userinfo', {
-          credentials: 'include',
-          cache: 'no-cache',
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        });
+    //     // 获取后端状态
+    //     const response = await fetch('/api/userinfo', {
+    //       credentials: 'include',
+    //       cache: 'no-cache',
+    //       headers: {
+    //         'Cache-Control': 'no-cache'
+    //       }
+    //     });
 
-        if (!response.ok) {
-          throw new Error('获取用户信息失败');
-        }
+    //     if (!response.ok) {
+    //       throw new Error('获取用户信息失败');
+    //     }
 
-        const data = await response.json();
+    //     const data = await response.json();
         
-        if (data.success && data.user) {
-          // 用户已登录
-          authForms.style.display = 'none';
-          userProfile.style.display = 'block';
-          updateUserProfile();
-        } else {
-          // 用户未登录
-          authForms.style.display = 'block';
-          userProfile.style.display = 'none';
-        }
-      } catch (error) {
-        console.error('检查登录状态失败:', error);
-        authForms.style.display = 'block';
-        userProfile.style.display = 'none';
-      }
-    }
+    //     if (data.success && data.user) {
+    //       // 用户已登录
+    //       authForms.style.display = 'none';
+    //       userProfile.style.display = 'block';
+    //       updateUserProfile();
+    //     } else {
+    //       // 用户未登录
+    //       authForms.style.display = 'block';
+    //       userProfile.style.display = 'none';
+    //     }
+    //   } catch (error) {
+    //     console.error('检查登录状态失败:', error);
+    //     authForms.style.display = 'block';
+    //     userProfile.style.display = 'none';
+    //   }
+    // }
 
-    // 等待 auth.js 加载完成并初始化
-    async function initAuth() {
-      // 确保 auth.js 初始化完成
-      if (window.authManager && typeof window.authManager.init === 'function') {
-        try {
-          await window.authManager.init();
-          await checkLoginState();
-        } catch (error) {
-          console.error('初始化失败:', error);
-          authForms.style.display = 'block';
-        }
-      } else {
-        console.error('authManager不可用');
-        authForms.style.display = 'block';
-      }
-    }
+    // // 等待 auth.js 加载完成并初始化
+    // async function initAuth() {
+    //   // 确保 auth.js 初始化完成
+    //   if (window.authManager && typeof window.authManager.init === 'function') {
+    //     try {
+    //       await window.authManager.init();
+    //       await checkLoginState();
+    //     } catch (error) {
+    //       console.error('初始化失败:', error);
+    //       authForms.style.display = 'block';
+    //     }
+    //   } else {
+    //     console.error('authManager不可用');
+    //     authForms.style.display = 'block';
+    //   }
+    // }
 
-    // DOM加载完成后开始初始化
-    document.addEventListener('DOMContentLoaded', initAuth);
+    // // DOM加载完成后开始初始化
+    // document.addEventListener('DOMContentLoaded', initAuth);
 
-    // 监听登录状态变化
-    window.addEventListener('authStateChanged', (event) => {
-      checkLoginState();
-    });
+    // // 监听登录状态变化
+    // window.addEventListener('authStateChanged', (event) => {
+    //   checkLoginState();
+    // });
 
     // 表单切换动画
     toRegisterBtn.onclick = () => {
