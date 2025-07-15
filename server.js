@@ -7,11 +7,18 @@ const SQLiteStore = require('better-sqlite3-session-store')(session);
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 
+const IS_PROD = process.env.NODE_ENV === 'production';
+const FRONTEND_ORIGIN = IS_PROD ? 'https://aaaespa.onrender.com' : 'http://localhost:3000';
+
 
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.set('trust proxy', 1);
+
 const db = new Database(path.join(__dirname, 'data', 'aespa.db'));
+
 
 
 // 创建表和升级表结构（better-sqlite3为同步API）
@@ -40,45 +47,19 @@ try {
   )`).run();
   // 新建评论点赞表（唯一约束防止重复点赞）
 
-  // 升级users表，添加nickname和avatar字段（幂等）
-  try { db.prepare('ALTER TABLE users ADD COLUMN nickname TEXT').run(); } catch(e) {}
-  try { db.prepare('ALTER TABLE users ADD COLUMN avatar TEXT').run(); } catch(e) {}
 } catch(e) { console.error(e); }
 
-// 头像上传目录
-const AVATAR_DIR = path.join(__dirname, 'assets', 'img', 'avatars');
-if (!fs.existsSync(AVATAR_DIR)) fs.mkdirSync(AVATAR_DIR, { recursive: true });
-const upload = multer({ dest: AVATAR_DIR });
-
-
-
-// 配置session存储
-app.use(session({
-  store: new SQLiteStore({
-    client: db,
-    expired: {
-      clear: true,
-      intervalMs: 900000 //15min
-    }
-  }),
-  name: 'aespa.sid', // 设置cookie名称
-  secret: 'aespa_secret',
-  resave: false,
-  saveUninitialized: false,
-  cookie: { 
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30天
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    path: '/'
-  }
-}));
 
 // 允许跨域请求，配置允许携带认证信息
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
   credentials: true
 };
-app.use(require('cors')(corsOptions));
+// app.use(require('cors')(corsOptions));
+app.use(require('cors')({
+  origin: FRONTEND_ORIGIN,
+  credentials: true
+}));
 app.use(express.json());
 
 // 获取用户信息
@@ -93,43 +74,23 @@ app.get('/api/userinfo', (req, res) => {
   res.json({ success: true, user: row });
 });
 
-// 修改昵称/头像
-app.post('/api/userinfo', upload.single('avatar'), (req, res) => {
-  const user = req.session.user;
-  if (!user) return res.json({ success: false, message: '未登录' });
-  let nickname = req.body.nickname;
-  let avatarFile = req.file;
-  let avatarUrl = null;
-  if (avatarFile) {
-    const ext = path.extname(avatarFile.originalname) || '.jpg';
-    const newName = user.id + '_' + Date.now() + ext;
-    const newPath = path.join(AVATAR_DIR, newName);
-    fs.renameSync(avatarFile.path, newPath);
-    avatarUrl = newName;
-  }
-  if (!avatarFile && req.is('application/json')) {
-    try {
-      db.prepare('UPDATE users SET nickname=? WHERE id=?').run(nickname, user.id);
-      res.json({ success: true });
-    } catch (err) {
-      res.json({ success: false, message: '保存失败' });
-    }
-  } else {
-    try {
-      db.prepare('UPDATE users SET nickname=?, avatar=? WHERE id=?').run(nickname, avatarUrl, user.id);
-      res.json({ success: true });
-    } catch (err) {
-      res.json({ success: false, message: '保存失败' });
-    }
-  }
-});
-
-// --- session中间件 ---
+// Session 配置
 app.use(session({
+  store: new SQLiteStore({
+    client: db,
+    expired: { clear: true, intervalMs: 900000 }
+  }),
+  name: 'aespa.sid',
   secret: 'aespa_secret',
   resave: false,
-  saveUninitialized: true,
-  cookie: { maxAge: 7*24*3600*1000 }
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 天
+    secure: IS_PROD,                 // 本地为 false，Render 上为 true
+    httpOnly: true,
+    sameSite: IS_PROD ? 'lax' : 'strict',
+    path: '/'
+  }
 }));
 
 // --- 用户注册 ---
