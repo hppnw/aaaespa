@@ -1,0 +1,185 @@
+/* 首页移动端响应式样式 */
+@media screen and (max-width: 768px) {
+  /* 全局布局 */
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 16px;
+  }
+
+  /* 顶部标题区域 */
+  .hero-section {
+    height: 100vh;
+    padding: 60px 16px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+  }
+
+  /* 时间线优化 */
+  .timeline {
+    padding: 20px 10px;
+  }
+
+  .timeline-wrapper {
+    margin-left: 20px;
+  }
+
+  .timeline-item {
+    padding-left: 30px;
+  }
+
+  .timeline-content {
+    margin-left: 15px;
+  }
+
+  .timeline-dot {
+    width: 24px;
+    height: 24px;
+    left: -12px;
+  }
+
+  .timeline-date {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .timeline-title {
+    font-size: 16px;
+  }
+
+  .timeline-description {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* 导航菜单 */
+  .nav-menu {
+    position: fixed;
+    bottom: env(safe-area-inset-bottom, 0);
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    padding: 12px 16px;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+  }
+
+  .nav-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px;
+  }
+
+  .nav-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .nav-text {
+    font-size: 12px;
+  }
+
+  /* 成员展示区 */
+  .members-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .member-card {
+    aspect-ratio: 1;
+  }
+
+  .member-info {
+    padding: 12px;
+  }
+
+  .member-name {
+    font-size: 16px;
+  }
+
+  .member-role {
+    font-size: 12px;
+  }
+
+  /* 相册展示 */
+  .album-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .album-card {
+    aspect-ratio: 1;
+  }
+
+  .album-info {
+    padding: 8px;
+  }
+
+  .album-title {
+    font-size: 14px;
+  }
+
+  .album-date {
+    font-size: 12px;
+  }
+
+  /* 交互按钮 */
+  .action-button {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  /* 页面转场动画 */
+  .page-transition {
+    transition: transform 0.3s ease-out;
+  }
+
+  /* iOS优化 */
+  @supports (-webkit-touch-callout: none) {
+    .nav-menu {
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    }
+
+    .hero-section {
+      padding-top: calc(60px + env(safe-area-inset-top));
+    }
+
+    /* 提升滚动性能 */
+    .timeline-wrapper {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+/* 小屏幕手机优化 */
+@media screen and (max-width: 320px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+  }
+
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .album-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}

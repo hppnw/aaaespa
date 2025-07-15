@@ -1,0 +1,201 @@
+/* 响应式布局样式 */
+:root {
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 20px);
+  --mobile-padding: 16px;
+  --nav-height: 60px;
+}
+
+/* 移动端导航栏 */
+.mobile-menu {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  /* 隐藏默认导航栏 */
+  .nav-links {
+    display: none;
+  }
+
+  /* 显示移动端菜单按钮 */
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1001;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  /* 移动端导航菜单 */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    padding: 60px 20px;
+  }
+
+  .mobile-nav.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 0;
+    font-size: 18px;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .mobile-nav a:last-child {
+    border-bottom: none;
+  }
+
+  /* 主页布局 */
+  .main-container {
+    padding-top: var(--nav-height);
+  }
+  .user-center-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    margin: 0;
+  }
+
+  .user-form {
+    width: 100%;
+    max-width: 100%;
+    padding: 20px;
+  }
+
+  .input-group {
+    margin-bottom: 20px;
+  }
+
+  .input-group input {
+    font-size: 16px; /* 防止iOS自动缩放 */
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .user-title {
+    font-size: 24px;
+    margin: 16px 0;
+  }
+
+  .user-info {
+    padding: 16px;
+  }
+
+  .user-section {
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .fav-item, .comment-item {
+    padding: 12px 0;
+  }
+
+  .fav-date, .comment-date {
+    font-size: 0.85em;
+  }
+
+  .comment-content {
+    margin-left: 12px;
+  }
+
+  /* 调整按钮组布局 */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* 优化Toast提示 */
+  .toast-message {
+    width: 90%;
+    max-width: none;
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+
+  /* 表单切换动画优化 */
+  .user-form {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .user-form.active {
+    transform: translateX(0);
+  }
+}
+
+/* 针对超小屏幕设备的优化 */
+@media screen and (max-width: 320px) {
+  .user-title {
+    font-size: 20px;
+  }
+
+  .input-group input {
+    padding: 8px 12px;
+  }
+
+  .fav-item, .comment-item {
+    font-size: 14px;
+  }
+}
+
+/* 适配深色模式 */
+@media (prefers-color-scheme: dark) {
+  .user-center-container {
+    background: #1f1f1f;
+    color: #fff;
+  }
+
+  .user-form {
+    background: #2d2d2d;
+  }
+
+  .input-group input {
+    background: #3d3d3d;
+    color: #fff;
+  }
+
+  .input-group label {
+    color: #aaa;
+  }
+
+  .fav-link, .comment-target {
+    color: #ff9ed6;
+  }
+
+  .comment-content {
+    color: #bbb;
+  }
+
+  .empty-tip {
+    color: #888;
+  }
+
+  .error-message {
+    color: #ff6b6b;
+  }
+}

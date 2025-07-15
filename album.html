@@ -3,12 +3,15 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>aespa 专辑展示</title>
   <link rel="stylesheet" href="css/album.css">
+  <link rel="stylesheet" href="css/album.responsive.css">
   <link rel="stylesheet" href="css/icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="js/auth.js"></script>
   <script src="js/reloader.js" defer></script>
+  <script src="js/album.mobile.js" defer></script>
 </head>
 
 <body>
@@ -162,7 +165,7 @@
                 <i class="fas fa-thumbs-up"></i>
                 <span id="like-count-${item.id}">${item.likes || 0}</span>
               </span>
-              ${item.user_id ? `
+              ${item.user_id === (window.user ? window.user.id : null) ? `
                 <span class="comment-delete" onclick="deleteComment(${item.id})">
                   <i class="fas fa-trash-alt"></i> 删除
                 </span>

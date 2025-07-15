@@ -7,14 +7,19 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/user.css">
   <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/user.responsive.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- 优化移动端显示 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <script src="js/auth.js"></script>
 </head>
 <body>
   <div class="user-center-container">
     <div class="user-title fade-in">用户中心</div>
     
     <!-- 未登录状态 -->
-    <div id="auth-forms" class="form-container fade-in">
+    <div id="auth-forms" class="form-container fade-in" style="display: none;">
       <!-- 登录表单 -->
       <form id="login-form" class="user-form active">
         <h2 style="text-align: center; margin-bottom: 24px; color: #333;">登录账号</h2>
@@ -35,21 +40,6 @@
         <button type="submit" class="btn btn-primary">登 录</button>
         <div class="form-footer">
           还没有账号？<a id="to-register" class="link-button">立即注册</a>
-        </div>
-        
-        <div class="third-party-login">
-          <div class="divider">其他登录方式</div>
-          <div class="social-buttons">
-            <div class="social-button">
-              <i class="fab fa-weixin"></i>
-            </div>
-            <div class="social-button">
-              <i class="fab fa-qq"></i>
-            </div>
-            <div class="social-button">
-              <i class="fab fa-weibo"></i>
-            </div>
-          </div>
         </div>
       </form>
 
@@ -82,7 +72,7 @@
     </div>
 
     <!-- 已登录状态 -->
-    <div id="user-profile" style="display: none;">
+    <div id="user-profile">
       <div class="user-info fade-in">
         <div class="user-meta" id="user-meta"></div>
       </div>
@@ -119,7 +109,77 @@
     const favList = document.getElementById('fav-list');
     const commentList = document.getElementById('comment-list');
     const rememberMeCheckbox = document.getElementById('remember-me');
-    
+
+    // 初始化时隐藏所有表单
+    authForms.style.display = 'none';
+    userProfile.style.display = 'none';
+
+    // 登录状态检查
+    async function checkLoginState() {
+      try {
+        // 确保 auth.js 已加载完成
+        if (!window.authManager) {
+          console.error('authManager未加载');
+          return;
+        }
+
+        // 获取后端状态
+        const response = await fetch('/api/userinfo', {
+          credentials: 'include',
+          cache: 'no-cache',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('获取用户信息失败');
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+          // 用户已登录
+          authForms.style.display = 'none';
+          userProfile.style.display = 'block';
+          updateUserProfile();
+        } else {
+          // 用户未登录
+          authForms.style.display = 'block';
+          userProfile.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('检查登录状态失败:', error);
+        authForms.style.display = 'block';
+        userProfile.style.display = 'none';
+      }
+    }
+
+    // 等待 auth.js 加载完成并初始化
+    async function initAuth() {
+      // 确保 auth.js 初始化完成
+      if (window.authManager && typeof window.authManager.init === 'function') {
+        try {
+          await window.authManager.init();
+          await checkLoginState();
+        } catch (error) {
+          console.error('初始化失败:', error);
+          authForms.style.display = 'block';
+        }
+      } else {
+        console.error('authManager不可用');
+        authForms.style.display = 'block';
+      }
+    }
+
+    // DOM加载完成后开始初始化
+    document.addEventListener('DOMContentLoaded', initAuth);
+
+    // 监听登录状态变化
+    window.addEventListener('authStateChanged', (event) => {
+      checkLoginState();
+    });
+
     // 表单切换动画
     toRegisterBtn.onclick = () => {
       loginForm.classList.remove('active');
@@ -202,28 +262,15 @@
 
       if (hasError) return;
 
-      try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ 
-            username, 
-            password,
-            remember: rememberMeCheckbox.checked
-          })
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-          authForms.style.display = 'none';
-          userProfile.style.display = 'block';
-          updateUserProfile();
-        } else {
-          showError(document.getElementById('login-username'), data.message || '登录失败');
-        }
-      } catch (err) {
-        showError(document.getElementById('login-username'), '网络错误，请稍后重试');
+      const result = await window.authManager.login(username, password, rememberMeCheckbox.checked);
+      
+      if (result.success) {
+        authForms.style.display = 'none';
+        userProfile.style.display = 'block';
+        updateUserProfile();
+        showToast('登录成功');
+      } else {
+        showError(document.getElementById('login-username'), result.message || '登录失败');
       }
     };
 
@@ -269,9 +316,17 @@
         
         if (data.success) {
           // 注册成功后自动登录
-          authForms.style.display = 'none';
-          userProfile.style.display = 'block';
-          updateUserProfile();
+          const loginResult = await window.authManager.login(username, password, false);
+          if (loginResult.success) {
+            showToast('注册成功并已自动登录');
+          } else {
+            showToast('注册成功，但自动登录失败，请手动登录', 'error');
+            // 切换到登录表单
+            registerForm.classList.remove('active');
+            setTimeout(() => {
+              loginForm.classList.add('active');
+            }, 300);
+          }
         } else {
           showError(document.getElementById('register-username'), data.message || '注册失败');
         }
@@ -303,7 +358,7 @@
 
     // 收藏列表更新函数
     function updateFavorites() {
-      fetch('/api/favorite').then(r=>r.json()).then(res=>{
+      fetch('/api/favorite').then(r => r.json()).then(res => {
         if(res.success) {
           if(res.data && res.data.length) {
             favList.innerHTML = res.data.map(item => {
@@ -313,17 +368,21 @@
               
               if(item.fav_type === 'album') {
                 icon = '<i class="fas fa-compact-disc"></i>';
-                link = `album.html?album=${encodeURIComponent(item.fav_id.replace('album_',''))}`;
-                text = item.fav_id.replace('album_','');
+                const albumName = item.fav_id.replace('album_','');
+                link = `album.html?album=${encodeURIComponent(albumName)}`;
+                text = decodeURIComponent(albumName);
               } else if(item.fav_type === 'track') {
                 icon = '<i class="fas fa-music"></i>';
                 const [_, album, ...trackParts] = item.fav_id.split('_');
-                link = `album.html?album=${encodeURIComponent(album)}`;
-                text = trackParts.join('_');
+                const fixedAlbum = album === 'My' ? 'My_World' : album;
+                const trackName = album === 'My' ? trackParts.slice(1).join('_') : trackParts.join('_');
+                link = `album.html?album=${encodeURIComponent(fixedAlbum)}`;
+                text = decodeURIComponent(trackName).replace(/\+/g, ' ');
               } else if(item.fav_type === 'member') {
                 icon = '<i class="fas fa-user"></i>';
-                link = `member.html?member=${encodeURIComponent(item.fav_id.replace('member_',''))}`;
-                text = item.fav_id.replace('member_','');
+                const memberName = item.fav_id.replace('member_','');
+                link = `member.html?member=${encodeURIComponent(memberName)}`;
+                text = decodeURIComponent(memberName);
               }
               
               return `
@@ -353,17 +412,19 @@
                 icon = '<i class="fas fa-compact-disc"></i>';
                 const album = item.target.replace('album_','');
                 link = `album.html?album=${encodeURIComponent(album)}`;
-                target = album;
+                target = decodeURIComponent(album);
               } else if(item.target.startsWith('track_')) {
                 icon = '<i class="fas fa-music"></i>';
                 const [_, album, ...trackParts] = item.target.split('_');
-                link = `album.html?album=${encodeURIComponent(album)}`;
-                target = trackParts.join('_');
+                const fixedAlbum = album === 'My' ? 'My_World' : album;
+                const trackName = album === 'My' ? trackParts.slice(1).join('_') : trackParts.join('_');
+                link = `album.html?album=${encodeURIComponent(fixedAlbum)}`;
+                target = decodeURIComponent(trackName).replace(/\+/g, ' ');
               } else if(item.target.startsWith('member_')) {
                 icon = '<i class="fas fa-user"></i>';
                 const member = item.target.replace('member_','');
                 link = `member.html?member=${encodeURIComponent(member)}`;
-                target = member;
+                target = decodeURIComponent(member);
               }
               
               return `
@@ -387,26 +448,50 @@
     // 登出处理
     logoutBtn.onclick = async () => {
       try {
-        await fetch('/api/logout');
-        authForms.style.display = 'block';
-        userProfile.style.display = 'none';
-        // 清空表单
-        document.getElementById('login-username').value = '';
-        document.getElementById('login-password').value = '';
-        document.getElementById('remember-me').checked = false;
-        showToast('已安全退出登录');
-      } catch (err) {
-        console.error('登出失败:', err);
-        showToast('登出失败，请重试', 'error');
+        // 1. 清除所有本地存储
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie.split(";").forEach(function(c) { 
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+        });
+
+        // 2. 调用后端登出
+        const response = await fetch('/api/logout', {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0'
+          }
+        });
+
+        // 3. 清除 authManager 状态
+        if (window.authManager && window.authManager.logout) {
+          await window.authManager.logout();
+        }
+
+        // 4. 强制页面刷新（不使用缓存）
+        window.location.href = 'index.html?t=' + new Date().getTime();
+
+      } catch (error) {
+        console.error('登出失败:', error);
+        // 即使后端失败，也强制清除前端状态并刷新
+        localStorage.clear();
+        sessionStorage.clear();
+        window.location.reload(true);
       }
     };
 
-    // 昵称输入限制
-    document.getElementById('nickname-input').oninput = function() {
-      this.value = this.value.slice(0, 16);
-      this.value = this.value.replace(/[^\u4e00-\u9fa5\w\- ]/g, '');
-      clearError(this);
-    };
+    // 昵称输入限制 - 如果有昵称输入框才添加监听
+    const nicknameInput = document.getElementById('nickname-input');
+    if (nicknameInput) {
+      nicknameInput.oninput = function() {
+        this.value = this.value.slice(0, 16);
+        this.value = this.value.replace(/[^\u4e00-\u9fa5\w\- ]/g, '');
+        clearError(this);
+      };
+    }
 
     // 优雅的消息提示
     function showToast(message, type = 'success') {
@@ -428,7 +513,7 @@
     style.textContent = `
       .toast-message {
         position: fixed;
-        bottom: 20px;
+        bottom: env(safe-area-inset-bottom, 20px);
         left: 50%;
         transform: translateX(-50%);
         background: rgba(0, 0, 0, 0.8);
@@ -440,6 +525,8 @@
         align-items: center;
         gap: 8px;
         transition: opacity 0.3s;
+        max-width: 90%;
+        margin: 0 auto;
       }
       
       .toast-message i {
@@ -511,13 +598,70 @@
     `;
     document.head.appendChild(style);
 
-    // 初始化检查登录状态
-    fetch('/api/userinfo').then(r=>r.json()).then(res=>{
-      if(res.success && res.user) {
-        authForms.style.display = 'none';
-        userProfile.style.display = 'block';
-        updateUserProfile();
+    // 登录状态检查
+    async function checkLoginState() {
+      try {
+        // 确保 auth.js 已加载完成
+        if (!window.authManager) {
+          console.error('authManager未加载');
+          return;
+        }
+
+        // 获取后端状态
+        const response = await fetch('/api/userinfo', {
+          credentials: 'include',
+          cache: 'no-cache',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('获取用户信息失败');
+        }
+
+        const data = await response.json();
+        
+        if (data.success && data.user) {
+          // 用户已登录
+          authForms.style.display = 'none';
+          userProfile.style.display = 'block';
+          updateUserProfile();
+        } else {
+          // 用户未登录
+          authForms.style.display = 'block';
+          userProfile.style.display = 'none';
+        }
+      } catch (error) {
+        console.error('检查登录状态失败:', error);
+        authForms.style.display = 'block';
+        userProfile.style.display = 'none';
       }
+    }
+
+    // 等待 auth.js 加载完成并初始化
+    async function initAuth() {
+      // 确保 auth.js 初始化完成
+      if (window.authManager && typeof window.authManager.init === 'function') {
+        try {
+          await window.authManager.init();
+          await checkLoginState();
+        } catch (error) {
+          console.error('初始化失败:', error);
+          authForms.style.display = 'block';
+        }
+      } else {
+        console.error('authManager不可用');
+        authForms.style.display = 'block';
+      }
+    }
+
+    // DOM加载完成后开始初始化
+    document.addEventListener('DOMContentLoaded', initAuth);
+
+    // 监听登录状态变化
+    window.addEventListener('authStateChanged', (event) => {
+      checkLoginState();
     });
   </script>
 </body>

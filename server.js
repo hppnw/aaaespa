@@ -61,15 +61,24 @@ app.use(session({
       intervalMs: 900000 //15min
     }
   }),
+  name: 'aespa.sid', // 设置cookie名称
   secret: 'aespa_secret',
   resave: false,
   saveUninitialized: false,
   cookie: { 
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7天
-    secure: process.env.NODE_ENV === 'production'
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30天
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    path: '/'
   }
 }));
-app.use(require('cors')());
+
+// 允许跨域请求，配置允许携带认证信息
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
+  credentials: true
+};
+app.use(require('cors')(corsOptions));
 app.use(express.json());
 
 // 获取用户信息
@@ -147,18 +156,43 @@ app.post('/api/register', (req, res) => {
 // --- 用户登录 ---
 app.post('/api/login', (req, res) => {
   try {
-    console.log('login req.body:', req.body);
-    const { username, password } = req.body;
+    const { username, password, remember } = req.body;
+    
     if (!username || !password) {
       return res.status(400).json({ success: false, message: '用户名和密码必填' });
     }
+    
     if (typeof username !== 'string' || typeof password !== 'string') {
       return res.status(400).json({ success: false, message: '参数错误' });
     }
+    
     const row = db.prepare('SELECT * FROM users WHERE username=?').get(username);
+    
     if (row && bcrypt.compareSync(password, row.password)) {
-      req.session.user = { id: row.id, username: row.username };
-      res.json({ success: true, user: { id: row.id, username: row.username } });
+      // 设置用户session
+      req.session.user = { 
+        id: row.id, 
+        username: row.username,
+        loginTime: Date.now()
+      };
+      
+      // 处理"记住我"功能
+      if (remember) {
+        // 如果用户选择了"记住我"，设置 30 天的过期时间
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000;
+      } else {
+        // 否则设置为浏览器会话结束时过期
+        req.session.cookie.expires = false;
+      }
+
+      res.json({ 
+        success: true, 
+        user: { 
+          id: row.id, 
+          username: row.username,
+          remember: remember
+        } 
+      });
     } else {
       res.json({ success: false, message: '用户名或密码错误' });
     }
@@ -207,18 +241,50 @@ app.get('/api/comment', (req, res) => {
 
 
 
-// --- 删除评论（仅本人或匿名/管理员）---
+// --- 删除评论（仅本人）---
 app.delete('/api/comment/:id', (req, res) => {
   const id = req.params.id;
   let user = req.session.user;
-  const row = db.prepare('SELECT * FROM comments WHERE id=?').get(id);
-  if (!row) return res.json({ success: false, message: '评论不存在' });
-  if (row.user_id && (!user || user.id !== row.user_id)) return res.json({ success: false, message: '无权限' });
+
+  // 1. 检查用户是否登录
+  if (!user) {
+    return res.status(401).json({ 
+      success: false, 
+      message: '请先登录' 
+    });
+  }
+
+  // 2. 获取评论信息
+  const row = db.prepare('SELECT * FROM comments WHERE id = ?').get(id);
+  
+  // 3. 检查评论是否存在
+  if (!row) {
+    return res.status(404).json({ 
+      success: false, 
+      message: '评论不存在' 
+    });
+  }
+
+  // 4. 检查是否是评论作者
+  if (row.user_id !== user.id) {
+    return res.status(403).json({ 
+      success: false, 
+      message: '只能删除自己发布的评论' 
+    });
+  }
+
+  // 5. 执行删除操作
   try {
-    db.prepare('DELETE FROM comments WHERE id=?').run(id);
-    res.json({ success: true });
+    db.prepare('DELETE FROM comments WHERE id = ?').run(id);
+    res.json({ 
+      success: true,
+      message: '评论已删除'
+    });
   } catch (err) {
-    res.json({ success: false });
+    res.status(500).json({ 
+      success: false, 
+      message: '删除评论失败，请稍后重试'
+    });
   }
 });
 

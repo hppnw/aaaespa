@@ -1,0 +1,113 @@
+/* 移动端样式优化 */
+@media screen and (max-width: 768px) {
+  .user-center-container {
+    padding: 16px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .user-title {
+    font-size: 24px;
+    margin: 16px 0;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .user-form {
+    padding: 16px;
+  }
+
+  .input-group {
+    margin-bottom: 16px;
+  }
+
+  .input-group input {
+    width: 100%;
+    font-size: 16px; /* 避免iOS自动缩放 */
+    padding: 12px;
+  }
+
+  .input-group label {
+    font-size: 14px;
+  }
+
+  .error-message {
+    font-size: 12px;
+  }
+
+  .remember-me {
+    margin: 12px 0;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 8px 0;
+  }
+
+  .form-footer {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  /* 用户信息区域 */
+  .user-info {
+    padding: 16px;
+  }
+
+  .user-meta {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* 收藏和评论区域 */
+  .user-section {
+    margin: 16px 0;
+    padding: 16px;
+  }
+
+  .user-section h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .fav-item, .comment-item {
+    padding: 10px;
+  }
+
+  .fav-date, .comment-date {
+    font-size: 12px;
+  }
+
+  .comment-content {
+    font-size: 14px;
+    margin-left: 16px;
+  }
+
+  /* Toast消息优化 */
+  .toast-message {
+    font-size: 14px;
+    padding: 10px 20px;
+    bottom: calc(env(safe-area-inset-bottom, 20px) + 10px);
+  }
+}
+
+/* iOS输入框优化 */
+@supports (-webkit-touch-callout: none) {
+  input {
+    font-size: 16px !important;
+  }
+  
+  input[type="text"],
+  input[type="password"] {
+    border-radius: 0;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}

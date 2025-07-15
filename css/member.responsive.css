@@ -1,0 +1,125 @@
+/* 移动端响应式样式 */
+@media screen and (max-width: 768px) {
+  #member-container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  #member-left {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  #member-avatar {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #member-info-mask {
+    background: linear-gradient(to bottom, 
+      rgba(0,0,0,0) 0%,
+      rgba(0,0,0,0.7) 50%,
+      rgba(0,0,0,0.9) 100%
+    );
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  #member-name {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  #member-introduction,
+  #member-MBTI,
+  #member-birth {
+    font-size: 14px;
+    margin: 8px 0;
+  }
+
+  #member-right {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  #photo-gallery-wrapper {
+    padding: 16px;
+  }
+
+  #photo-gallery {
+    height: auto;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+
+  .gallery-nav {
+    display: none; /* 在移动端使用滑动而不是按钮导航 */
+  }
+
+  .gallery-item {
+    aspect-ratio: 1;
+    height: auto;
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 全屏预览优化 */
+  .fullscreen-overlay {
+    padding: 0;
+  }
+
+  .fullscreen-image {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+  }
+
+  .close-fullscreen {
+    top: 16px;
+    right: 16px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* 触摸滑动支持 */
+  .photo-gallery {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    gap: 16px;
+  }
+
+  .gallery-item {
+    scroll-snap-align: start;
+    flex: 0 0 auto;
+    width: calc(50% - 8px);
+  }
+
+  /* iOS设备优化 */
+  @supports (-webkit-touch-callout: none) {
+    #member-container {
+      /* 适配 iPhone 刘海屏 */
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    .fullscreen-overlay {
+      padding-top: env(safe-area-inset-top);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+}
