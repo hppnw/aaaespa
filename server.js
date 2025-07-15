@@ -49,31 +49,6 @@ try {
 
 } catch(e) { console.error(e); }
 
-
-// 允许跨域请求，配置允许携带认证信息
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
-  credentials: true
-};
-// app.use(require('cors')(corsOptions));
-app.use(require('cors')({
-  origin: FRONTEND_ORIGIN,
-  credentials: true
-}));
-app.use(express.json());
-
-// 获取用户信息
-app.get('/api/userinfo', (req, res) => {
-  const user = req.session.user;
-  if (!user) return res.json({ success: false, message: '未登录' });
-  const row = db.prepare('SELECT id, username, nickname, avatar, created_at FROM users WHERE id=?').get(user.id);
-  if (!row) return res.json({ success: false, message: '用户不存在' });
-  if (row.avatar && !/^https?:/.test(row.avatar)) {
-    row.avatar = '/assets/img/avatars/' + row.avatar;
-  }
-  res.json({ success: true, user: row });
-});
-
 // Session 配置
 app.use(session({
   store: new SQLiteStore({
@@ -92,6 +67,31 @@ app.use(session({
     path: '/'
   }
 }));
+
+// 允许跨域请求，配置允许携带认证信息
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
+  credentials: true
+};
+// app.use(require('cors')(corsOptions));
+app.use(require('cors')({
+  origin: FRONTEND_ORIGIN,
+  credentials: true
+}));
+app.use(express.json());
+
+// 获取用户信息
+app.get('/api/userinfo', (req, res) => {
+  const user = req.session.user;
+  if (!user) return res.json({ success: false, message: '未登录' });
+
+  const row = db.prepare('SELECT id, username, created_at FROM users WHERE id=?').get(user.id);
+  if (!row) return res.json({ success: false, message: '用户不存在' });
+
+  res.json({ success: true, user: row });
+});
+
+
 
 // --- 用户注册 ---
 app.post('/api/register', (req, res) => {
